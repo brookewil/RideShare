@@ -1,4 +1,5 @@
-# # CS345 - Software Engineering at Ithaca College
+## RideShare App
+## CS345 - Software Engineering at Ithaca College
 RideShare App - Brooke Wilson,  Diana Lazo, Calvin Lapierre , Ben Sterbenk
 
 ## Section 1 - Pitch:
