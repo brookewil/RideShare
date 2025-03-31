@@ -8,12 +8,13 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-        <Text>Username:</Text>
+        <Text>Enter Username:</Text>
         <TextInput 
+          style={styles.login}
           id="username" 
           value={username.value} 
           onChangeText={(text) => setUsername(text)} 
-          placeholder="Enter Username" 
+          placeholder="Username" 
         />
       <StatusBar style="auto" />
     </View>
@@ -27,4 +28,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+
+  login: {
+    height: 40, 
+    borderColor: 'gray', 
+    padding: 4,
+    borderWidth: 1 }
+  }
+);
