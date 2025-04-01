@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Form, Button } from 'react-native';
 import React, { useState } from 'react';
+import {styles} from './styles.js';
 
 export default function App() {
   
@@ -39,29 +40,3 @@ export default function App() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    padding: 20
-  },
-
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 15,
-    paddingHorizontal: 10,
-    width: '100%' 
-  },
-
-  title: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    marginBottom: 5,
-    marginTop: 10
-    }
-  }
-)
