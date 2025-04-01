@@ -1,21 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, Form } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Form, Button } from 'react-native';
 import React, { useState } from 'react';
 
 export default function App() {
   
   const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = () => {
+    console.log('Username:', username);
+    console.log('Password:', password);
+  }
 
   return (
     <View style={styles.container}>
-        <Text>Enter Username:</Text>
+      <Text styles={styles.title}>Enter Username</Text>
         <TextInput 
-          style={styles.login}
-          id="username" 
-          value={username.value} 
-          onChangeText={(text) => setUsername(text)} 
-          placeholder="Username" 
+          style={styles.input}
+          value={username}
+          onChangeText={setUsername}
+          placeholder="Username"
         />
+
+        <Button title="Submit" onPress={handleLogin} />
+
       <StatusBar style="auto" />
     </View>
   );
@@ -27,12 +35,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 20
   },
 
-  login: {
-    height: 40, 
-    borderColor: 'gray', 
-    padding: 4,
-    borderWidth: 1 }
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 15,
+    paddingHorizontal: 10,
+    width: '100%' },
+
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20 }
   }
-);
+)
