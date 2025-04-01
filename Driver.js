@@ -1,13 +1,7 @@
-class Driver {
-    constructor(username) {
-        this.username = username;
+class Driver extends User {
+    constructor() {
         this.approved = false;
         this.cars = [];
-    }
-
-    signup() {
-        const date = new Date();
-        console.log(`Driver ${this.username} signed up at ${date}`);
     }
 
     approve() {
