@@ -8,8 +8,11 @@ export default function App() {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    console.log('Username:', username);
-    console.log('Password:', password);
+    if (username === 'username' && password === 'password') {
+      alert('Welcome');
+    } else {
+      alert('Incorrect Username or Password');
+    }
   }
 
   return (
