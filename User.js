@@ -3,9 +3,11 @@ class User {
         this.username = username;
         this.password = password;
 
-        this.rating = -1;
         this.rides = 0;
+        this.rating = -1;
         this.funds = 0;
+
+        this.location = null;
     }
 
     signup() {
