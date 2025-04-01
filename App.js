@@ -14,7 +14,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text styles={styles.title}>Enter Username</Text>
+      <Text style={styles.title}>Enter Username</Text>
         <TextInput 
           style={styles.input}
           value={username}
@@ -22,7 +22,7 @@ export default function App() {
           placeholder="Username"
         />
 
-      <Text styles={styles.title}>Enter Password</Text>
+      <Text style={styles.title}>Enter Password</Text>
         <TextInput 
           style={styles.input}
           value={password}
@@ -51,12 +51,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 15,
     paddingHorizontal: 10,
-    width: '100%' },
+    width: '100%' 
+  },
 
   title: {
-    fontSize: 24,
+    fontSize: 15,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 5,
+    marginTop: 10
     }
   }
 )
