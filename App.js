@@ -22,6 +22,14 @@ export default function App() {
           placeholder="Username"
         />
 
+      <Text styles={styles.title}>Enter Password</Text>
+        <TextInput 
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Password"
+        />
+
         <Button title="Submit" onPress={handleLogin} />
 
       <StatusBar style="auto" />
@@ -33,7 +41,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
     padding: 20
   },
@@ -49,6 +56,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20 }
+    marginBottom: 20,
+    }
   }
 )
