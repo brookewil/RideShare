@@ -9,4 +9,7 @@ A software that will allow users to select where they wish to be picked up from 
 ## Section 2 - UML Diagrams
 https://drive.google.com/file/d/1icRkiS9NmIi7KhLx9vBTziNw3mefxm_Q/view?usp=sharing
 
-## Section 3 - Code 
+## Section 3 - Sprint Review Agenda
+https://docs.google.com/document/d/1UV4QChQphxNEZp7VozHZqZk65hqgaQ2A2UywLYlDBcg/edit?usp=sharing
+
+## Section 4 - Code 
