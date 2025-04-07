@@ -9,4 +9,9 @@ A software that will allow users to select where they wish to be picked up from 
 ## Section 2 - UML Diagrams
 https://drive.google.com/file/d/1icRkiS9NmIi7KhLx9vBTziNw3mefxm_Q/view?usp=sharing
 
-## Section 3 - Code 
+## Section 3 - Sprints
+Sprint Goals: https://trello.com/invite/b/67dd778c4a06154a5f8f1177/ATTI0e322fb93033fc7377a10e2eede23e14A19D4B51/cs345-rideshareapp
+
+Sprint Review/Demo Agenda: https://docs.google.com/document/d/1UV4QChQphxNEZp7VozHZqZk65hqgaQ2A2UywLYlDBcg/edit?usp=sharing
+
+## Section 4 - Code 
