@@ -18,6 +18,7 @@ export default function App() {
   }
 
   const handleLogin = async () => {
+    Alert.alert('This got called');
     if (!validateEmail(email)) {
       Alert.alert('Invalid Email Format');
       return;
