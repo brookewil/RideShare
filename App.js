@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import {styles} from './styles.js';
 import { auth } from './firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { Alert } from 'react-native'; 
 
 export default function App() {
   
@@ -13,12 +14,11 @@ export default function App() {
 
   // add email validation method, check isValid, and then alert "welcome"
   const validateEmail = (email) => {
-    const emailRegex = "^(?!.*[._%+-]{2})[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    const emailRegex = /^(?!.*[._%+-]{2})[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
-  }
+  };
 
   const handleLogin = async () => {
-    Alert.alert('This got called');
     if (!validateEmail(email)) {
       Alert.alert('Invalid Email Format');
       return;
