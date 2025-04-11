@@ -2,6 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { Text, View, TextInput, Form, Button } from 'react-native';
 import React, { useState } from 'react';
 import {styles} from './styles.js';
+import { auth } from './firebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { Alert } from 'react-native'; 
 
 export default function App() {
   
@@ -11,17 +14,23 @@ export default function App() {
 
   // add email validation method, check isValid, and then alert "welcome"
   const validateEmail = (email) => {
-    const emailRegex = "^(?!.*[._%+-]{2})[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    const emailRegex = /^(?!.*[._%+-]{2})[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
-  }
+  };
 
-  const handleLogin = () => {
-    if (email.validateEmail == true && email === 'email' && password === 'password') {
-      alert('Welcome');
-    } else {
-      alert('Invalid Email or Password');
+  const handleLogin = async () => {
+    if (!validateEmail(email)) {
+      Alert.alert('Invalid Email Format');
+      return;
     }
-  }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      Alert.alert('Welcome');
+    } catch (error) {
+      Alert.alert('Login Failed', error.message);
+    }
+  };
 
   return (
     <View style={styles.container}>
