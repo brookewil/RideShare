@@ -5,12 +5,18 @@ import {styles} from './styles.js';
 import { auth } from './firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Alert } from 'react-native'; 
+import SignUpScreen from './SignUpScreen.js'; // Import the SignUpScreen component
+
+
+
 
 export default function App() {
   
   //const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [showSignup, setShowSignup] = useState(false); // to toggle view
+
 
   // add email validation method, check isValid, and then alert "welcome"
   const validateEmail = (email) => {
@@ -31,7 +37,15 @@ export default function App() {
       Alert.alert('Login Failed', error.message);
     }
   };
-
+ 
+  if (showSignup) {
+    return (
+      <View style={styles.container}>
+        <SignUpScreen />
+        <Button title="Back to Login" onPress={() => setShowSignup(false)} />
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
 
@@ -52,6 +66,7 @@ export default function App() {
         />
 
         <Button title="Submit" onPress={handleLogin} />
+        <Button title="Create Account" onPress={() => setShowSignup(true)} />
 
       <StatusBar style="auto" />
     </View>
