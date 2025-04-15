@@ -10,6 +10,8 @@ import SignUpScreen from './SignUpScreen.js'; // Import the SignUpScreen compone
 
 
 
+import {initMap} from './Map.js';
+
 export default function App() {
   
   //const [username, setUsername] = useState('');
