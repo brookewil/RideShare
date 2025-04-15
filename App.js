@@ -3,6 +3,8 @@ import { Text, View, TextInput, Form, Button } from 'react-native';
 import React, { useState } from 'react';
 import {styles} from './styles.js';
 
+import {initMap} from './Map.js';
+
 export default function App() {
   
   //const [username, setUsername] = useState('');
@@ -18,9 +20,26 @@ export default function App() {
   const handleLogin = () => {
     if (email.validateEmail == true && email === 'email' && password === 'password') {
       alert('Welcome');
+      // Call App
+      App();
     } else {
       alert('Invalid Email or Password');
     }
+  }
+
+  // App call
+  function App() {
+    useEffect(() => {
+      // Initialize Map
+      initMap();
+    }, []);
+
+    return (
+      <div>
+        <h1>Map</h1>
+        <div id = "map" style = {{width: '100%', height: '500px'}}></div>
+      </div>
+    )
   }
 
   return (
