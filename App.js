@@ -14,6 +14,8 @@ function App() {
             <Stack.Navigator initialRouteName="Login">
                 <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="UserHome" component={UserHomeScreen} />
+                <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
+                <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
             </Stack.Navigator>
         </NavigationContainer>
      );

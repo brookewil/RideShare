@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text } from 'react-native';
 
 
-function DriverAdminHomeScreen() {
+function DriverHomeScreen() {
   return (
      <View style={{ flex: 1, alignItems:   
            'center', justifyContent: 'center' }}>
