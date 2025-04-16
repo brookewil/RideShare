@@ -1,13 +1,42 @@
+import React from 'react';
+//import {Map} from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
+import {StyleSheet, View} from 'react-native';
+
 let map;
 
-function initMap() {
+function MapRS() {
     // Initialize and create Map Object
-    map = new Map(document.getElementById("map"), {
-        center: { lat: 37.7749, lng: -122.4194 }, // San Francisco
-        zoom: 12,
-    });
-    // Test Marker
-    addMarker({ lat: 37.7749, lng: -122.4194 }, "San Francisco", "This is San Francisco!");
+    return (
+        <View style={styles.container}>
+            <MapView
+                style={styles.map}
+                initialRegion={{
+                    latitude: 42.4439,
+                    longitude: -76.5019,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
+                }}
+            >
+                <Marker
+                    coordinate={{latitude: 42.4439, longitude: -76.5019}}
+                    title="RideShare"
+                    description="This is Ithaca, NY"
+                />
+            </MapView>
+        </View>
+    );
 }
 
-export {initMap};
+// Map Style Sheet
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    map: {
+        width: '100%',
+        height: '100%',
+    },
+});
+
+export default MapRS;

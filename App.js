@@ -6,11 +6,7 @@ import { auth } from './firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Alert } from 'react-native'; 
 import SignUpScreen from './SignUpScreen.js'; // Import the SignUpScreen component
-
-
-
-
-import {initMap} from './Map.js';
+import MapRS from './Map.js'; // Map component
 
 export default function App() {
   
@@ -18,6 +14,8 @@ export default function App() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [showSignup, setShowSignup] = useState(false); // to toggle view
+  // Set to True after successful sign in, toggles landing page
+  const [loggedIn, setLoggedIn] = useState(false);
 
 
   // add email validation method, check isValid, and then alert "welcome"
@@ -35,6 +33,7 @@ export default function App() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       Alert.alert('Welcome');
+      setLoggedIn(true); // Set loggedIn to true after successful login
     } catch (error) {
       Alert.alert('Login Failed', error.message);
     }
@@ -48,6 +47,13 @@ export default function App() {
       </View>
     );
   }
+
+  if (loggedIn) {
+    // Render Map
+    return <MapRS />
+  }
+
+  // App Return
   return (
     <View style={styles.container}>
 
