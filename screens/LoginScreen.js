@@ -33,7 +33,7 @@ export default function LoginScreen() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       Alert.alert('Welcome');
-      navigation.navigate('Home');
+      navigation.navigate('UserHome');
 
     } catch (error) {
       Alert.alert('Login Failed', error.message);
