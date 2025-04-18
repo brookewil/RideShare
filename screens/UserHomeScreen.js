@@ -7,7 +7,7 @@ function UserHomeScreen() {
      <View style={{ flex: 1, alignItems:   
            'center', justifyContent: 'center' }}>
         <Text>User Home Screen</Text>
-        <View style = {{ height: '80%', width: '90%', overflow: 'hidden' }}>
+        <View style = {{height: '80%', width: '95%', overflow: 'hidden'}}>
           <Text>Map</Text>
           <MapRS />
         </View>
