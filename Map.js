@@ -32,6 +32,12 @@ async function UserLocation() {
     }
 }
 
+async function UserInputLocation() {
+    // Gets User Input Location (seperate from UserLocation, this is for destination), called by MapRS()
+    // Since UserLocation asks for permission, this function is only called in UserLocation
+    // TODO: Implement
+}
+
 function MapRS() {
     // Initialize and create Map Object, Called outside Map.js
     // Used for User Location
@@ -65,11 +71,11 @@ function MapRS() {
 
     return (
         // If Location is provided, show map centered on User Location
-        <View style={styles.container}>
+        <View style = {styles.container}>
             <MapView
-                style={styles.map}
-                // Shows user location area, Marker object is User Location "exact"
-                initialRegion={{
+                style = {styles.map}
+                // Shows user location area
+                initialRegion = {{
                     latitude: location.latitude,
                     longitude: location.longitude,
                     latitudeDelta: 0.0922,
@@ -77,12 +83,13 @@ function MapRS() {
                 }}
             >
                 <Marker
-                    coordinate={{
+                    // Marker object is User Location "exact"
+                    coordinate = {{
                         latitude: location.latitude, 
                         longitude: location.longitude,
                     }}
-                    title="Your Location"
-                    description="Disclaimer: User Position may not be Exact"
+                    title = "Your Location"
+                    description = "Disclaimer: User Position may not be Exact"
                 />
             </MapView>
         </View>
