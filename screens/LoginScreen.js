@@ -7,6 +7,8 @@ import { auth } from '../firebaseConfig.js';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Alert } from 'react-native'; 
 import SignUpScreen from '../SignUpScreen.js'; // Import the SignUpScreen component
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebaseConfig'; 
 
 import {initMap} from '../Map.js';
 
@@ -32,15 +34,44 @@ export default function LoginScreen() {
       return;
     }
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      Alert.alert('Welcome');
-      navigation.navigate('UserHome');
+    
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    const uid = user.uid;
 
-    } catch (error) {
+    // First check Admins collection
+    const adminRef = doc(db, 'Admins', uid);
+    const adminSnap = await getDoc(adminRef);
+
+    if (adminSnap.exists()) {
+      Alert.alert('Welcome Admin!');
+      navigation.navigate('AdminHome');
+      return;
+    }
+
+    // Then check users collection
+    const userRef = doc(db, 'Users', uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      const userData = userSnap.data();
+
+      if (userData.type === 'driver') {
+        Alert.alert('Welcome Driver!');
+        navigation.navigate('DriverHome');
+      } else {
+        Alert.alert('Welcome User!');
+        navigation.navigate('UserHome');
+      }
+    } else {
       Alert.alert('Login Failed', error.message);
     }
-  };
+
+  } catch (error) {
+    Alert.alert('Login Failed', error.message);
+  }
+};
  
   if (showSignup) {
     return (
