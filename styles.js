@@ -21,8 +21,9 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     marginBottom: 5,
-    marginTop: 10
-    }
+    marginTop: 10,
+  },
+
 }
 )
 
