@@ -14,6 +14,8 @@ import Car from './Car';
 export default function SignUpScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   const [birthday, setBirthday] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [role, setRole] = useState('rider');  // Default role set to 'rider'
@@ -33,6 +35,10 @@ export default function SignUpScreen() {
   const handleSignUp = async () => {
     if (!validateEmail(email)) {
       Alert.alert('Invalid Email Format');
+      return;
+    }
+    if (password !== confirmPassword) {
+      Alert.alert('Passwords do not match!');
       return;
     }
   
@@ -95,16 +101,18 @@ export default function SignUpScreen() {
   };
   
   
+
   
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
       <Text style={styles.title}>Sign Up</Text>
 
-      <TextInput style={styles.input} value={email} onChangeText={setEmail} placeholder="Email" />
-      <TextInput style={styles.input} value={password} onChangeText={setPassword} placeholder="Password" secureTextEntry />
-      <TextInput style={styles.input} value={birthday} onChangeText={setBirthday} placeholder="Birthday (YYYY-MM-DD)" />
-      <TextInput style={styles.input} value={phoneNumber} onChangeText={setPhoneNumber} placeholder="Phone Number" />
+      <TextInput style={styles.input} value={email} onChangeText={(text) => setEmail(text.trim())} placeholder="Email" />
+      <TextInput style={styles.input} value={password} onChangeText={(text) => setPassword(text.trim())} placeholder="Password" secureTextEntry />
+      <TextInput style={styles.input} value={confirmPassword} onChangeText={(text) => setConfirmPassword(text.trim())} placeholder="Confirm Password" secureTextEntry />
+      <TextInput style={styles.input} value={birthday} onChangeText={(text) => setBirthday(text.trim())} placeholder="Birthday (YYYY-MM-DD)" />
+      <TextInput style={styles.input} value={phoneNumber} onChangeText={(text) => setPhoneNumber(text.trim())} placeholder="Phone Number" />
 
       {/* Role Selection using Radio Buttons */}
       <Text style={styles.title}>Select Role</Text>
@@ -131,11 +139,12 @@ export default function SignUpScreen() {
       {role === 'driver' && (
         <>
           <Text style={styles.title}>Car Information</Text>
-          <TextInput style={styles.input} value={carYear} onChangeText={setCarYear} placeholder="Year" />
-          <TextInput style={styles.input} value={carMake} onChangeText={setCarMake} placeholder="Make" />
-          <TextInput style={styles.input} value={carModel} onChangeText={setCarModel} placeholder="Model" />
-          <TextInput style={styles.input} value={carColor} onChangeText={setCarColor} placeholder="Color" />
-          <TextInput style={styles.input} value={carPlate} onChangeText={setCarPlate} placeholder="Plate Number" />
+          <TextInput style={styles.input} value={carYear} onChangeText={(text) => setCarYear(text.trim())} placeholder="Year" />
+          <TextInput style={styles.input} value={carMake} onChangeText={(text) => setCarMake(text.trim())} placeholder="Make" />
+          <TextInput style={styles.input} value={carModel} onChangeText={(text) => setCarModel(text.trim())} placeholder="Model" />
+          <TextInput style={styles.input} value={carColor} onChangeText={(text) => setCarColor(text.trim())} placeholder="Color" />
+          <TextInput style={styles.input} value={carPlate} onChangeText={(text) => setCarPlate(text.trim())} placeholder="Plate Number" />
+
         </>
       )}
 

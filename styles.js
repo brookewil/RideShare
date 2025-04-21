@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
     justifyContent: 'center',
     padding: 20
@@ -21,8 +20,9 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     marginBottom: 5,
-    marginTop: 10
-    }
+    marginTop: 10,
+  },
+
 }
 )
 

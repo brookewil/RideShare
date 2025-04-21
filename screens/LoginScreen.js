@@ -9,6 +9,7 @@ import { Alert } from 'react-native';
 import SignUpScreen from '../SignUpScreen.js'; // Import the SignUpScreen component
 import { getFirestore, doc, getDoc, collection } from 'firebase/firestore';
 const db = getFirestore(); // initialize Firestore
+
 import {initMap} from '../Map.js';
 
 export default function LoginScreen() {
@@ -18,6 +19,8 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [showSignup, setShowSignup] = useState(false); // to toggle view
   const navigation = useNavigation();
+  const [showPassword, setShowPassword] = useState(false);
+
 
   // add email validation method, check isValid, and then alert "welcome"
   const validateEmail = (email) => {
@@ -87,7 +90,7 @@ export default function LoginScreen() {
         <TextInput 
           style={styles.input}
           value={email}
-          onChangeText={setEmail}
+          onChangeText={(text) => setEmail(text.trim())}
           placeholder="Email"
         />
 
@@ -95,9 +98,12 @@ export default function LoginScreen() {
         <TextInput 
           style={styles.input}
           value={password}
-          onChangeText={setPassword}
+          onChangeText={(text) => setPassword(text.trim())}
           placeholder="Password"
+          secureTextEntry={!showPassword}
+
         />
+        <Button title={showPassword ? "Hide Password" : "Show Password"} onPress={() => setShowPassword(!showPassword)} />
 
         <Button title="Submit" onPress={handleLogin}/>
         <Button title="Create Account" onPress={() => setShowSignup(true)} />
