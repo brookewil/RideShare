@@ -39,7 +39,7 @@ export default function LoginScreen() {
       const user = userCredential.user;
   
       // Check if user is an admin first
-      const adminDocRef = doc(db, 'Admin', user.uid);
+      const adminDocRef = doc(db, 'Admins', user.uid);
       const adminDocSnap = await getDoc(adminDocRef);
   
       if (adminDocSnap.exists()) {
