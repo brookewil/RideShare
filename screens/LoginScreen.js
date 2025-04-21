@@ -7,7 +7,8 @@ import { auth } from '../firebaseConfig.js';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Alert } from 'react-native'; 
 import SignUpScreen from '../SignUpScreen.js'; // Import the SignUpScreen component
-
+import { getFirestore, doc, getDoc, collection } from 'firebase/firestore';
+const db = getFirestore(); // initialize Firestore
 import {initMap} from '../Map.js';
 
 export default function LoginScreen() {
@@ -29,16 +30,47 @@ export default function LoginScreen() {
       Alert.alert('Invalid Email Format');
       return;
     }
-
+  
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      Alert.alert('Welcome');
-      navigation.navigate('UserHome');
-
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+  
+      // Check if user is an admin first
+      const adminDocRef = doc(db, 'Admin', user.uid);
+      const adminDocSnap = await getDoc(adminDocRef);
+  
+      if (adminDocSnap.exists()) {
+        Alert.alert('Welcome Admin');
+        navigation.navigate('AdminHome');
+        return;
+      }
+  
+      // If not admin, check Users collection
+      const userDocRef = doc(db, 'Users', user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+  
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        const userType = userData.type;
+  
+        if (userType === 'rider') {
+          Alert.alert('Welcome Rider');
+          navigation.navigate('UserHome');
+        } else if (userType === 'driver') {
+          Alert.alert('Welcome Driver');
+          navigation.navigate('DriverHome');
+        } else {
+          Alert.alert('Unknown user type');
+        }
+      } else {
+        Alert.alert('User document not found');
+      }
+  
     } catch (error) {
       Alert.alert('Login Failed', error.message);
     }
   };
+  
  
   if (showSignup) {
     return (
