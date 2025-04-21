@@ -14,6 +14,8 @@ import Car from './Car';
 export default function SignUpScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   const [birthday, setBirthday] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [role, setRole] = useState('rider');  // Default role set to 'rider'
@@ -33,6 +35,10 @@ export default function SignUpScreen() {
   const handleSignUp = async () => {
     if (!validateEmail(email)) {
       Alert.alert('Invalid Email Format');
+      return;
+    }
+    if (password !== confirmPassword) {
+      Alert.alert('Passwords do not match!');
       return;
     }
   
@@ -104,6 +110,7 @@ export default function SignUpScreen() {
 
       <TextInput style={styles.input} value={email} onChangeText={(text) => setEmail(text.trim())} placeholder="Email" />
       <TextInput style={styles.input} value={password} onChangeText={(text) => setPassword(text.trim())} placeholder="Password" secureTextEntry />
+      <TextInput style={styles.input} value={confirmPassword} onChangeText={(text) => setConfirmPassword(text.trim())} placeholder="Confirm Password" secureTextEntry />
       <TextInput style={styles.input} value={birthday} onChangeText={(text) => setBirthday(text.trim())} placeholder="Birthday (YYYY-MM-DD)" />
       <TextInput style={styles.input} value={phoneNumber} onChangeText={(text) => setPhoneNumber(text.trim())} placeholder="Phone Number" />
 
