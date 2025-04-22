@@ -23,6 +23,16 @@ export const styles = StyleSheet.create({
     marginTop: 10,
   },
 
+  welcomeTitle: {
+    fontSize: 23,
+    fontWeight: 'bold',
+    marginBottom: 7,
+    marginTop: 10,
+  },
+
+
+
+  
 }
 )
 
