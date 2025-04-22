@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
 
   buttonText: {
     color: 'white',
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: 'bold',
     textAlign: 'center',
    },
