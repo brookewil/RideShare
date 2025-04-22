@@ -24,10 +24,24 @@ export const styles = StyleSheet.create({
   },
 
   welcomeTitle: {
-    fontSize: 23,
+    fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 7,
     marginTop: 10,
+  },
+
+  button: {
+    backgroundColor: '#450000',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginTop: 15,
+  },
+
+  buttonText: {
+    color: 'white',
+    fontSize: 17,
+    fontWeight: 'bold',
   },
 
 
