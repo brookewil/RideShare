@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {styles} from '../styles.js';
 import MapRS from '../Map'; 
@@ -15,7 +15,18 @@ function UserHomeScreen() {
           <Text style={styles.welcomeTitle}>Welcome Back</Text>
           <MapRS/>
         </View>
-        <Button title="Request" onPress={() => navigation.navigate('Request')} />
+
+        <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Request')}>
+        <Text style={styles.buttonText}>Request</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('PlanRide')}>
+        <Text style={styles.buttonText}>Plan a Ride</Text>
+        </TouchableOpacity>
      </View>
   );
 }
