@@ -30,6 +30,13 @@ export const styles = StyleSheet.create({
     marginTop: 10,
   },
 
+  passwordButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginTop: 15,
+  },
+
   button: {
     backgroundColor: '#450000',
     paddingVertical: 10,
@@ -42,11 +49,8 @@ export const styles = StyleSheet.create({
     color: 'white',
     fontSize: 17,
     fontWeight: 'bold',
-  },
-
-
-
-  
-}
+    textAlign: 'center',
+   },
+  }
 )
 
