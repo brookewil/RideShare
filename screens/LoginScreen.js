@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, TextInput, Form, Button } from 'react-native';
+import { Text, View, TextInput, Form, Button, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {styles} from '../styles.js';
@@ -77,7 +77,12 @@ export default function LoginScreen() {
     return (
       <View style={styles.container}>
         <SignUpScreen />
-        <Button title="Back to Login" onPress={() => setShowSignup(false)} />
+        <TouchableOpacity
+                style={styles.button}
+                onPress={() => setShowSignup(false)}>
+                <Text style={styles.buttonText}>Back to Login</Text>
+                </TouchableOpacity>
+        <TouchableOpacity title="Back to Login" onPress={() => setShowSignup(false)} />
       </View>
     );
   }
@@ -101,10 +106,25 @@ export default function LoginScreen() {
           secureTextEntry={!showPassword}
 
         />
-        <Button title={showPassword ? "Hide Password" : "Show Password"} onPress={() => setShowPassword(!showPassword)} />
 
-        <Button title="Submit" onPress={handleLogin}/>
-        <Button title="Create Account" onPress={() => setShowSignup(true)} />
+        <TouchableOpacity
+                style={{fontSize: 12}}
+                onPress={() => {setShowPassword(!showPassword)}}>
+                <Text style={{color: 'blue'}}>{showPassword ? "Hide Password" : "Show Password"}</Text>
+        </TouchableOpacity>
+        
+
+        <TouchableOpacity
+                style={styles.button}
+                onPress={() => {handleLogin}}>
+                <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+                style={styles.button}
+                onPress={() => setShowSignup(true)}>
+                <Text style={styles.buttonText}>Create Acccount</Text>
+        </TouchableOpacity>
 
       <StatusBar style="auto" />
     </View>
