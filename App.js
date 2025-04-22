@@ -5,6 +5,7 @@ import LoginScreen from './screens/LoginScreen';
 import UserHomeScreen from './screens/UserHomeScreen';
 import AdminHomeScreen from './screens/AdminHomeScreen';
 import DriverHomeScreen from './screens/DriverHomeScreen';
+import RequestScreen from './screens/RequestScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ function App() {
                 <Stack.Screen name="UserHome" component={UserHomeScreen} />
                 <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
                 <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
+                <Stack.Screen name="Request" component={RequestScreen} />
             </Stack.Navigator>
         </NavigationContainer>
      );
