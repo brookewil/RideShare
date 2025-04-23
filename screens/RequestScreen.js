@@ -1,13 +1,27 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import {styles} from '../styles.js';
+import MapRS from '../Map'; 
 
 function RequestScreen(){
+
+  const navigation = useNavigation();
+  
     return (
-         <View style={{ flex: 1, alignItems:   
-               'center', justifyContent: 'center' }}>
-           <Text>Request Screen</Text>
-         </View>
+      <View style={styles.mapContainer}>
+        <Text style={styles.headerTitle}>Request a Ride</Text>
+          <View style = {styles.map}>
+            <MapRS/>
+          </View>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('RideStatus')}>
+            <Text style={styles.buttonText}>Confirm</Text>
+        </TouchableOpacity>
+          
+      </View>
       );
 }
 
