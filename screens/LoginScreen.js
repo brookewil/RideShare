@@ -34,6 +34,12 @@ export default function LoginScreen() {
       return;
     }
 
+    const forgotPassword = async () => {
+      if (!validateEmail(email)) {
+        Alert.alert('Invalid Email Format');
+        return;
+      }
+
     
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -112,11 +118,16 @@ export default function LoginScreen() {
                 onPress={() => {setShowPassword(!showPassword)}}>
                 <Text style={{color: 'blue'}}>{showPassword ? "Hide Password" : "Show Password"}</Text>
         </TouchableOpacity>
-        
 
         <TouchableOpacity
+                style={{fontSize: 12}}
+                onPress={() => {forgotPassword()}}>
+                <Text style={{color: 'blue'}}>Forgot Password</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
                 style={styles.button}
-                onPress={() => {handleLogin}}>
+                onPress={() => handleLogin()}>
                 <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
 
@@ -129,4 +140,5 @@ export default function LoginScreen() {
       <StatusBar style="auto" />
     </View>
   );
+ }
 }

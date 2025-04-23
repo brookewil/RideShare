@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoginScreen from './screens/LoginScreen';
 import UserHomeScreen from './screens/UserHomeScreen';
 import AdminHomeScreen from './screens/AdminHomeScreen';
 import DriverHomeScreen from './screens/DriverHomeScreen';
 import RequestScreen from './screens/RequestScreen';
 import PlanRideScreen from './screens/PlanRideScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +24,7 @@ function App() {
                 <Stack.Screen name="PlanRide" component={PlanRideScreen} />
             </Stack.Navigator>
         </NavigationContainer>
+        
      );
 }
 
