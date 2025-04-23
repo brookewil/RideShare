@@ -18,6 +18,14 @@ import MapViewDirections from 'react-native-maps-directions';
 // Google Maps API Key
 const GOOGLE_API = 'AIzaSyAgN1zPM_MvXhxdRDdTg-Zm4oHO9gSpZ6g';
 
+// Map Size
+const DELTA_LAT = 0.0922;
+const DELTA_LNG = 0.0421;
+
+// Map Aspects
+const ROUTE_COLOR = 'red'; 
+const ROUTE_WIDTH = 3; // Relatively thin, could be made thicker
+
 async function UserLocation() {
     // Gets User Location, called by MapRS()
     try {
@@ -66,8 +74,8 @@ function MapRS() {
                     initialRegion = {{
                         latitude: 42.4226,
                         longitude: -76.4942,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
+                        latitudeDelta: DELTA_LAT,
+                        longitudeDelta: DELTA_LNG,
                     }}
                 >
                 </MapView>
@@ -79,9 +87,11 @@ function MapRS() {
         // If Location is provided, show map centered on User Location
         <View style = {styles.container}>
             <GooglePlacesAutocomplete
-                //ref = {ref}
-                placeholder = 'Search'
-                fetchDetails = {true}
+                // Google Places API for User to search for and select Destination
+                placeholder = 'Search' // What appears in the search bar when inactive
+                minLength={2} // Minimum number of characters to init search
+                fetchDetails = {true} // Fetches details of the selected Destination
+                enablePoweredByContainer = {false} // Hides "Powered by Google" text
                 onPress = {(data, details = null) => {
                     if (details) {
                         const {lat, lng} = details.geometry.location;
@@ -116,9 +126,10 @@ function MapRS() {
                 initialRegion = {{
                     latitude: location.latitude,
                     longitude: location.longitude,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
+                    latitudeDelta: DELTA_LAT,
+                    longitudeDelta: DELTA_LNG,
                 }}
+                // Only set mapLoaded to true when onMapReady
                 onMapReady = {() => setMapLoaded(true)}
             >
                 {mapLoaded && (
@@ -135,7 +146,7 @@ function MapRS() {
                         {destination && (
                             <Marker
                                 // Marker object for Destination
-                                coordinate = {destination}
+                                coordinate = {destination} // This holds both lat, lng
                                 title = "Destination"
                                 description = "User Selected Destination"
                             />
@@ -145,8 +156,8 @@ function MapRS() {
                                 origin = {location}
                                 destination = {destination}
                                 apikey = {GOOGLE_API}
-                                strokeWidth = {3}
-                                strokeColor = "red"
+                                strokeWidth = {ROUTE_WIDTH}
+                                strokeColor = {ROUTE_COLOR}
                             />
                         )}
                     </>
