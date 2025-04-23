@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  container: {
+  loginContainer: {
     backgroundColor: '#fff',
     flex: 1,
     justifyContent: 'center',
@@ -50,11 +50,18 @@ export const styles = StyleSheet.create({
     height: '55%', 
     width: '100%', 
     overflow: 'hidden',
-    flex: 0.2,
+    flex: 0.5,
     flexDirection: 'column',
     justifyContent: 'center',
     padding: 10,
     },
+
+    mapContainer: {
+      backgroundColor: '#fff',
+      flex: 1,
+      padding: 10,
+    },
+  
   }
 )
 
