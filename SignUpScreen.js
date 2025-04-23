@@ -1,4 +1,4 @@
-import { Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
+import { Text, View, TextInput, Button, Alert, ScrollView, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { styles } from './styles.js';
 import { StatusBar } from 'expo-status-bar';
@@ -6,12 +6,16 @@ import { RadioButton } from 'react-native-paper';  // Import RadioButton compone
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc, setDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { auth, db } from './firebaseConfig';
+import { useNavigation } from '@react-navigation/native';
+
 
 import Rider from './Rider';
 import Driver from './Driver';
 import Car from './Car';
 
 export default function SignUpScreen() {
+  const navigation = useNavigation();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -105,7 +109,7 @@ export default function SignUpScreen() {
   
 
   return (
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+      <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
 
       <TextInput style={styles.input} value={email} onChangeText={(text) => setEmail(text.trim())} placeholder="Email" />
@@ -148,8 +152,14 @@ export default function SignUpScreen() {
         </>
       )}
 
-      <Button title="Sign Up" onPress={handleSignUp} />
-      <StatusBar style="auto" />
+    <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+      <Text style={styles.buttonText}>Sign Up</Text>
+    </TouchableOpacity>
+    <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.buttonText}>Back to Login</Text>
+    </TouchableOpacity>
     </ScrollView>
   );
 }
