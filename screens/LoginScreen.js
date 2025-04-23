@@ -81,7 +81,7 @@ export default function LoginScreen() {
  
   if (showSignup) {
     return (
-      <View style={styles.container}>
+      <View style={styles.loginContainer}>
         <SignUpScreen />
         <TouchableOpacity
                 style={styles.button}
@@ -94,7 +94,7 @@ export default function LoginScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.loginContainer}>
 
       <Text style={styles.title}>Enter Email</Text>
         <TextInput 
