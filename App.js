@@ -9,7 +9,6 @@ import DriverHomeScreen from './screens/DriverHomeScreen';
 import RequestScreen from './screens/RequestScreen';
 import PlanRideScreen from './screens/PlanRideScreen';
 
-
 const Stack = createNativeStackNavigator();
 
 function App() {
