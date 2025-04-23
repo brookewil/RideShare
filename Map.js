@@ -1,4 +1,6 @@
+// ---IMPORTS---
 import React, {useState, useEffect} from 'react';
+import {GOOGLE_API_KEY} from '@env';
 
 // Map Imports
 import MapView, {Marker} from 'react-native-maps';
@@ -6,7 +8,7 @@ import {StyleSheet, View} from 'react-native';
 
 // Location Imports
 import * as Location from 'expo-location';
-import { inMemoryPersistence } from 'firebase/auth';
+import { inMemoryPersistence } from 'firebase/auth'; // This import just appeared at some point, LMK if still needed
 
 // Google Maps Places and Directions Imports
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
@@ -14,9 +16,15 @@ import MapViewDirections from 'react-native-maps-directions';
 
 // Ithaca College Coords:
 // 42.422668, -76.494209
+// Used as Base Location if User Location is unavailable
+const IC_COORDS = {
+    latitude: 42.422668,
+    longitude: -76.494209
+}
 
+// ---DEFS---
 // Google Maps API Key
-const GOOGLE_API = 'AIzaSyAgN1zPM_MvXhxdRDdTg-Zm4oHO9gSpZ6g';
+const GOOGLE_API = GOOGLE_API_KEY;
 
 // Map Size
 const DELTA_LAT = 0.0922;
@@ -26,11 +34,15 @@ const DELTA_LNG = 0.0421;
 const ROUTE_COLOR = 'red'; 
 const ROUTE_WIDTH = 3; // Relatively thin, could be made thicker
 
+// Other
+const MIN_WORD_SEARCH = 2;
+
+// ---FUNCS---
 async function UserLocation() {
     // Gets User Location, called by MapRS()
     try {
         // Ask for Location Permission
-        const { status } = await Location.requestForegroundPermissionsAsync();
+        const {status} = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
             // Permission is Denied
             console.error('Location Permission was denied');
@@ -72,8 +84,8 @@ function MapRS() {
                 <MapView
                     style = {styles.map}
                     initialRegion = {{
-                        latitude: 42.4226,
-                        longitude: -76.4942,
+                        latitude: IC_COORDS.latitude,
+                        longitude: IC_COORDS.longitude,
                         latitudeDelta: DELTA_LAT,
                         longitudeDelta: DELTA_LNG,
                     }}
@@ -89,7 +101,7 @@ function MapRS() {
             <GooglePlacesAutocomplete
                 // Google Places API for User to search for and select Destination
                 placeholder = 'Search' // What appears in the search bar when inactive
-                minLength={2} // Minimum number of characters to init search
+                minLength={MIN_WORD_SEARCH} // Minimum number of characters to init search
                 fetchDetails = {true} // Fetches details of the selected Destination
                 enablePoweredByContainer = {false} // Hides "Powered by Google" text
                 onPress = {(data, details = null) => {
