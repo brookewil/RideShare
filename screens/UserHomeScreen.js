@@ -9,10 +9,10 @@ function UserHomeScreen() {
   const navigation = useNavigation();
 
   return (
-     <View style={{ flex: 1, alignItems:   
-           'center'}}>
-        <View style = {{height: '55%', width: '95%', overflow: 'hidden'}}>
-          <Text style={styles.welcomeTitle}>Welcome Back</Text>
+     <View style={{ flex: 1, padding: 10}}>
+
+        <Text style={styles.headerTitle}>Welcome Back</Text>
+        <View style = {styles.map}>
           <MapRS/>
         </View>
 

@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     marginTop: 10,
   },
 
-  welcomeTitle: {
+  headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 7,
@@ -48,8 +48,11 @@ export const styles = StyleSheet.create({
 
    map: {
     height: '55%', 
-    width: '95%', 
+    width: '100%', 
     overflow: 'hidden',
+    flex: 0.2,
+    flexDirection: 'column',
+    justifyContent: 'center',
     padding: 10,
     },
   }
