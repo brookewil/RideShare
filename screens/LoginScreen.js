@@ -28,19 +28,18 @@ export default function LoginScreen() {
     return emailRegex.test(email);
   };
 
-  const handleLogin = async () => {
-    if (!validateEmail(email)) {
-      Alert.alert('Invalid Email Format');
-      return;
-    }
-  }
-
   const forgotPassword = async () => {
     if (!validateEmail(email)) {
       Alert.alert('Invalid Email Format');
       return;
     }
+  };
 
+  const handleLogin = async () => {
+    if (!validateEmail(email)) {
+      Alert.alert('Invalid Email Format');
+      return;
+    }
     
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -93,6 +92,7 @@ export default function LoginScreen() {
       </View>
     );
   }
+
   return (
     <View style={styles.container}>
 
@@ -122,7 +122,7 @@ export default function LoginScreen() {
 
         <TouchableOpacity
                 style={{fontSize: 12}}
-                onPress={() => {forgotPassword()}}>
+                onPress={() => {forgotPassword}}>
                 <Text style={{color: 'blue'}}>Forgot Password</Text>
         </TouchableOpacity>
         
