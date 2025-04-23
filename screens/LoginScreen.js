@@ -122,7 +122,7 @@ export default function LoginScreen() {
 
         <TouchableOpacity
                 style={{fontSize: 12}}
-                onPress={() => {forgotPassword}}>
+                onPress={() => {forgotPassword()}}>
                 <Text style={{color: 'blue'}}>Forgot Password</Text>
         </TouchableOpacity>
         
