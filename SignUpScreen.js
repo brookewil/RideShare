@@ -1,4 +1,4 @@
-import { Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
+import { Text, View, TextInput, Button, Alert, ScrollView, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { styles } from './styles.js';
 import { StatusBar } from 'expo-status-bar';
@@ -148,7 +148,12 @@ export default function SignUpScreen() {
         </>
       )}
 
-      <Button title="Sign Up" onPress={handleSignUp} />
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => handleSignUp()}>
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </TouchableOpacity>
+
       <StatusBar style="auto" />
     </ScrollView>
   );
