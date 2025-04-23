@@ -22,10 +22,24 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAgN1zPM_MvXhxdRDdTg-Zm4oHO9gSpZ6g"
+        }
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": []
+    // "plugins": [
+    //   [
+    //     "react-native-maps",
+    //     {
+    //       "iosApiKey": "AIzaSyAgN1zPM_MvXhxdRDdTg-Zm4oHO9gSpZ6g"
+    //     }
+    //   ]
+    // ]
   }
 }

@@ -6,9 +6,17 @@ import {StyleSheet, View} from 'react-native';
 
 // Location Imports
 import * as Location from 'expo-location';
+import { inMemoryPersistence } from 'firebase/auth';
+
+// Google Maps Places and Directions Imports
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import MapViewDirections from 'react-native-maps-directions';
 
 // Ithaca College Coords:
 // 42.422668, -76.494209
+
+// Google Maps API Key
+const GOOGLE_API = 'AIzaSyAgN1zPM_MvXhxdRDdTg-Zm4oHO9gSpZ6g';
 
 async function UserLocation() {
     // Gets User Location, called by MapRS()
@@ -26,22 +34,20 @@ async function UserLocation() {
         console.log('User Location:', location.coords.latitude, location.coords.longitude);
 
         return location.coords;
+
     } catch (error) {
         // If Error, with log
         console.error('Could not retrieve user location:', error.message);
     }
 }
 
-async function UserInputLocation() {
-    // Gets User Input Location (seperate from UserLocation, this is for destination), called by MapRS()
-    // Since UserLocation asks for permission, this function is only called in UserLocation
-    // TODO: Implement
-}
-
 function MapRS() {
     // Initialize and create Map Object, Called outside Map.js
     // Used for User Location
     const [location, setLocation] = React.useState(null);
+    const [destination, setDestination] = React.useState(null);
+    const [mapLoaded, setMapLoaded] = React.useState(false);
+
     useEffect(() => {
         (async () => {
             const userLocation = await UserLocation();
@@ -72,7 +78,39 @@ function MapRS() {
     return (
         // If Location is provided, show map centered on User Location
         <View style = {styles.container}>
+            <GooglePlacesAutocomplete
+                //ref = {ref}
+                placeholder = 'Search'
+                fetchDetails = {true}
+                onPress = {(data, details = null) => {
+                    if (details) {
+                        const {lat, lng} = details.geometry.location;
+                        console.log("User Searched for and choose Location: ", lat, lng);
+                        setDestination ({
+                            latitude: lat,
+                            longitude: lng,
+                        });
+                        // console.log(data, details);
+                    }
+                }}
+                query = {{
+                    key: GOOGLE_API,
+                    language: 'en',
+                }}
+                styles={{
+                    container: {
+                        flex: 0,
+                        position: 'absolute',
+                        width: '100%',
+                        zIndex: 1,
+                    },
+                    listView: {
+                        backgroundColor: 'white',
+                    },
+                }}
+            />
             <MapView
+                // provider = "google"
                 style = {styles.map}
                 // Shows user location area
                 initialRegion = {{
@@ -81,16 +119,38 @@ function MapRS() {
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
+                onMapReady = {() => setMapLoaded(true)}
             >
-                <Marker
-                    // Marker object is User Location "exact"
-                    coordinate = {{
-                        latitude: location.latitude, 
-                        longitude: location.longitude,
-                    }}
-                    title = "Your Location"
-                    description = "Disclaimer: User Position may not be Exact"
-                />
+                {mapLoaded && (
+                    <>
+                        <Marker
+                            // Marker object is User Location "exact"
+                            coordinate = {{
+                                latitude: location.latitude, 
+                                longitude: location.longitude,
+                            }}
+                            title = "Your Location"
+                            description = "Disclaimer: User Position may not be Exact"
+                        />
+                        {destination && (
+                            <Marker
+                                // Marker object for Destination
+                                coordinate = {destination}
+                                title = "Destination"
+                                description = "User Selected Destination"
+                            />
+                        )}
+                        {destination && (
+                            <MapViewDirections
+                                origin = {location}
+                                destination = {destination}
+                                apikey = {GOOGLE_API}
+                                strokeWidth = {3}
+                                strokeColor = "red"
+                            />
+                        )}
+                    </>
+                )}
             </MapView>
         </View>
     );

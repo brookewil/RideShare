@@ -39,6 +39,7 @@ export default function LoginScreen() {
         Alert.alert('Invalid Email Format');
         return;
       }
+    }
 
     
   try {
@@ -140,5 +141,4 @@ export default function LoginScreen() {
       <StatusBar style="auto" />
     </View>
   );
- }
 }
