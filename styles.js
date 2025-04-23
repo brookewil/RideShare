@@ -45,6 +45,13 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
    },
+
+   map: {
+    height: '55%', 
+    width: '95%', 
+    overflow: 'hidden',
+    padding: 10,
+    },
   }
 )
 
