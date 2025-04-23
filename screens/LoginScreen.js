@@ -33,12 +33,13 @@ export default function LoginScreen() {
       Alert.alert('Invalid Email Format');
       return;
     }
+  }
 
-    const forgotPassword = async () => {
-      if (!validateEmail(email)) {
-        Alert.alert('Invalid Email Format');
-        return;
-      }
+  const forgotPassword = async () => {
+    if (!validateEmail(email)) {
+      Alert.alert('Invalid Email Format');
+      return;
+    }
 
     
   try {
@@ -141,4 +142,3 @@ export default function LoginScreen() {
     </View>
   );
  }
-}
