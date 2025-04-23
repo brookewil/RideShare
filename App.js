@@ -8,6 +8,7 @@ import AdminHomeScreen from './screens/AdminHomeScreen';
 import DriverHomeScreen from './screens/DriverHomeScreen';
 import RequestScreen from './screens/RequestScreen';
 import PlanRideScreen from './screens/PlanRideScreen';
+import RideStatusScreen from './screens/RideStatusScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -22,6 +23,7 @@ function App() {
                 <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
                 <Stack.Screen name="Request" component={RequestScreen} />
                 <Stack.Screen name="PlanRide" component={PlanRideScreen} />
+                <Stack.Screen name="RideStatus" component={RideStatusScreen} />
             </Stack.Navigator>
         </NavigationContainer>
         
