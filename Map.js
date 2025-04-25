@@ -1,6 +1,6 @@
 // ---IMPORTS---
 import React, {useState, useEffect} from 'react';
-import {GOOGLE_API_KEY} from '@env';
+// import {GOOGLE_API_KEY} from '@env';
 
 // Map Imports
 import MapView, {Marker} from 'react-native-maps';
@@ -24,7 +24,8 @@ const IC_COORDS = {
 
 // ---DEFS---
 // Google Maps API Key
-const GOOGLE_API = GOOGLE_API_KEY;
+// const GOOGLE_API = GOOGLE_API_KEY;
+const GOOGLE_API = 'AIzaSyCD9-sChwm8Hp1Iwu73a9G2HJCQbGXmJxs'
 
 // Map Size
 const DELTA_LAT = 0.0922;
