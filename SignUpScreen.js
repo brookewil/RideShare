@@ -110,6 +110,7 @@ export default function SignUpScreen() {
 
   return (
       <ScrollView contentContainerStyle={styles.container}>
+      <View style={{ height: 40 }} />
       <Text style={styles.title}>Sign Up</Text>
 
       <TextInput style={styles.input} value={email} onChangeText={(text) => setEmail(text.trim())} placeholder="Email" />
@@ -121,22 +122,26 @@ export default function SignUpScreen() {
       {/* Role Selection using Radio Buttons */}
       <Text style={styles.title}>Select Role</Text>
       <View>
-        <View style={styles.radioButtonContainer}>
-          <Text>Rider</Text>
-          <RadioButton
-            value="rider"
-            status={role === 'rider' ? 'checked' : 'unchecked'}
-            onPress={() => setRole('rider')}
-          />
-        </View>
-        <View style={styles.radioButtonContainer}>
-          <Text>Driver</Text>
-          <RadioButton
-            value="driver"
-            status={role === 'driver' ? 'checked' : 'unchecked'}
-            onPress={() => setRole('driver')}
-          />
-        </View>
+      <View style={styles.radioGroup}>
+  <TouchableOpacity
+    style={styles.radioButton}
+    onPress={() => setRole('rider')}>
+    <View style={styles.radioCircle}>
+      {role === 'rider' && <View style={styles.selectedRb} />}
+    </View>
+    <Text style={styles.radioText}>Rider</Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity
+    style={styles.radioButton}
+    onPress={() => setRole('driver')}>
+    <View style={styles.radioCircle}>
+      {role === 'driver' && <View style={styles.selectedRb} />}
+    </View>
+    <Text style={styles.radioText}>Driver</Text>
+  </TouchableOpacity>
+</View>
+
       </View>
 
       {/* Car Information for Driver Role */}

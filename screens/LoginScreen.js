@@ -9,6 +9,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Alert } from 'react-native'; 
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { useEffect } from 'react';
+import { Image } from 'react-native';
 
 import SignUpScreen from '../SignUpScreen.js'; // Import the SignUpScreen component
 
@@ -99,6 +100,7 @@ useEffect(() => {
 }, [showSignup]);
   return (
     <View style={styles.container}>
+      <Image source={require('../assets/logo.png')} style={{ width: 200, height: 100, alignSelf: 'center', marginTop: 40, marginBottom: 30 }}  />
 
       <Text style={styles.title}>Enter Email</Text>
         <TextInput 

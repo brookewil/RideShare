@@ -2,9 +2,11 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
+    flexGrow: 1,
     backgroundColor: '#fff',
     justifyContent: 'center',
-    padding: 20
+    padding: 20,
+    
   },
 
   input: {
@@ -44,6 +46,35 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
    },
+   radioGroup: {
+  flexDirection: 'column',
+  marginVertical: 20,
+},
+radioButton: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginBottom: 15,
+},
+radioCircle: {
+  height: 24,
+  width: 24,
+  borderRadius: 12,
+  borderWidth: 2,
+  borderColor: '#450000',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginRight: 10,
+},
+selectedRb: {
+  width: 12,
+  height: 12,
+  borderRadius: 6,
+  backgroundColor: '#450000',
+},
+radioText: {
+  fontSize: 16,
+}
+
   }
 )
 
