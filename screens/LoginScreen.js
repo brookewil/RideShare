@@ -100,7 +100,7 @@ useEffect(() => {
 }, [showSignup]);
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/logo.png')} style={{ width: 200, height: 100, alignSelf: 'center', marginTop: 40, marginBottom: 30 }}  />
+      <Image source={require('../assets/logo.png')} style={{ width: 200, height: 100, alignSelf: 'center', marginTop: 30, marginBottom: 30 }}  />
 
       <Text style={styles.title}>Enter Email</Text>
         <TextInput 

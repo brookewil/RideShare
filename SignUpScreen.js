@@ -123,24 +123,24 @@ export default function SignUpScreen() {
       <Text style={styles.title}>Select Role</Text>
       <View>
       <View style={styles.radioGroup}>
-  <TouchableOpacity
-    style={styles.radioButton}
-    onPress={() => setRole('rider')}>
-    <View style={styles.radioCircle}>
-      {role === 'rider' && <View style={styles.selectedRb} />}
-    </View>
-    <Text style={styles.radioText}>Rider</Text>
-  </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.radioButton}
+          onPress={() => setRole('rider')}>
+          <View style={styles.radioCircle}>
+            {role === 'rider' && <View style={styles.selectedRb} />}
+          </View>
+          <Text style={styles.radioText}>Rider</Text>
+        </TouchableOpacity>
 
-  <TouchableOpacity
-    style={styles.radioButton}
-    onPress={() => setRole('driver')}>
-    <View style={styles.radioCircle}>
-      {role === 'driver' && <View style={styles.selectedRb} />}
-    </View>
-    <Text style={styles.radioText}>Driver</Text>
-  </TouchableOpacity>
-</View>
+        <TouchableOpacity
+          style={styles.radioButton}
+          onPress={() => setRole('driver')}>
+          <View style={styles.radioCircle}>
+            {role === 'driver' && <View style={styles.selectedRb} />}
+          </View>
+          <Text style={styles.radioText}>Driver</Text>
+        </TouchableOpacity>
+      </View>
 
       </View>
 

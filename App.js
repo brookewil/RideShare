@@ -17,10 +17,10 @@ function App() {
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Login">
                 <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-                <Stack.Screen name="UserHome" component={UserHomeScreen} />
+                <Stack.Screen name="UserHome" component={UserHomeScreen} options={{ headerShown: false }}/>
                 <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
-                <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
-                <Stack.Screen name="Request" component={RequestScreen} />
+                <Stack.Screen name="DriverHome" component={DriverHomeScreen}options={{ headerShown: false }} />
+                <Stack.Screen name="Request" component={RequestScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="PlanRide" component={PlanRideScreen} />
                 <Stack.Screen name="SignUp" component={SignUpScreen}options={{ headerShown: false }} />
             </Stack.Navigator>

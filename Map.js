@@ -75,6 +75,7 @@ function MapRS() {
             <MapView
                 style = {styles.map}
                 // Shows user location area
+                showsUserLocation = {true}
                 initialRegion = {{
                     latitude: location.latitude,
                     longitude: location.longitude,
