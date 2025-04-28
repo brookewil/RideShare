@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 const HomeStack = () => {
    
     return (
-      <Stack.Navigator initialRouteName="Login" headerShown={false}>
+      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
         <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
@@ -32,7 +32,7 @@ const Tab = createBottomTabNavigator();
 
 export function TabNavigator() {
   return (
-        <Tab.Navigator initialRouteName="Login">
+        <Tab.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Tab.Screen name="UserHome" component={UserHomeScreen} 
             options={{
