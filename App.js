@@ -23,6 +23,7 @@ const HomeStack = () => {
         <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
         <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
         <Stack.Screen name="Ride Status" component={RideStatusScreen} />
+        <Stack.Screen name="Sign Up" component={SignUpScreen} />
       </Stack.Navigator>
     )
 }
