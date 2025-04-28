@@ -1,3 +1,4 @@
+import 'react-native-get-random-values';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -10,6 +11,7 @@ import DriverHomeScreen from './screens/DriverHomeScreen';
 import RequestScreen from './screens/RequestScreen';
 import PlanRideScreen from './screens/PlanRideScreen';
 import RideStatusScreen from './screens/RideStatusScreen';
+import SignUpScreen from './SignUpScreen';
 
 const Stack = createNativeStackNavigator();
 

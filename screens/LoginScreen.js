@@ -1,3 +1,4 @@
+
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TextInput, Form, Button, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -6,7 +7,12 @@ import {styles} from '../styles.js';
 import { auth } from '../firebaseConfig.js';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Alert } from 'react-native'; 
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { useEffect } from 'react';
+import { Image } from 'react-native';
+
 import SignUpScreen from '../SignUpScreen.js'; // Import the SignUpScreen component
+
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig'; 
 
@@ -27,19 +33,27 @@ export default function LoginScreen() {
     const emailRegex = /^(?!.*[._%+-]{2})[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   };
-
-  const forgotPassword = async () => {
-    if (!validateEmail(email)) {
-      Alert.alert('Invalid Email Format');
+  const handleResetPassword = async () => {
+    if (!email) {
+      Alert.alert('Please enter your email to reset your password.');
       return;
     }
+  
+    try {
+      await sendPasswordResetEmail(auth, email);
+      Alert.alert('Password reset email sent!', 'Check your inbox.');
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    }
   };
-
+  
   const handleLogin = async () => {
     if (!validateEmail(email)) {
       Alert.alert('Invalid Email Format');
       return;
     }
+    
+
     
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -79,22 +93,14 @@ export default function LoginScreen() {
   }
 };
  
+useEffect(() => {
   if (showSignup) {
-    return (
-      <View style={styles.loginContainer}>
-        <SignUpScreen />
-        <TouchableOpacity
-                style={styles.button}
-                onPress={() => setShowSignup(false)}>
-                <Text style={styles.buttonText}>Back to Login</Text>
-                </TouchableOpacity>
-        <TouchableOpacity title="Back to Login" onPress={() => setShowSignup(false)} />
-      </View>
-    );
+    navigation.navigate('SignUp');
   }
-
+}, [showSignup]);
   return (
-    <View style={styles.loginContainer}>
+    <View style={styles.container}>
+      <Image source={require('../assets/logo.png')} style={{ width: 200, height: 100, alignSelf: 'center', marginTop: 30, marginBottom: 30 }}  />
 
       <Text style={styles.title}>Enter Email</Text>
         <TextInput 
@@ -122,7 +128,7 @@ export default function LoginScreen() {
 
         <TouchableOpacity
                 style={{fontSize: 12}}
-                onPress={() => {forgotPassword()}}>
+                onPress={() => {handleResetPassword()}}>
                 <Text style={{color: 'blue'}}>Forgot Password</Text>
         </TouchableOpacity>
         
@@ -141,4 +147,4 @@ export default function LoginScreen() {
       <StatusBar style="auto" />
     </View>
   );
- }
+}
