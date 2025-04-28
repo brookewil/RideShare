@@ -45,9 +45,9 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     textAlign: 'center',
-   },
+  },
 
-   map: {
+  map: {
     height: '55%', 
     width: '100%', 
     overflow: 'hidden',
@@ -55,43 +55,47 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     padding: 10,
-    },
+  },
 
-    mapContainer: {
-      backgroundColor: '#fff',
-      flex: 1,
-      padding: 10,
-    },
+  mapContainer: {
+    backgroundColor: '#fff',
+    flex: 1,
+    padding: 10,
+    marginTop: 40,
+  },
+    
+  radioGroup: {
+    flexDirection: 'column',
+    marginVertical: 20,
+  },
   
-   radioGroup: {
-  flexDirection: 'column',
-  marginVertical: 20,
-},
-radioButton: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  marginBottom: 15,
-},
-radioCircle: {
-  height: 24,
-  width: 24,
-  borderRadius: 12,
-  borderWidth: 2,
-  borderColor: '#450000',
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginRight: 10,
-},
-selectedRb: {
-  width: 12,
-  height: 12,
-  borderRadius: 6,
-  backgroundColor: '#450000',
-},
-radioText: {
-  fontSize: 16,
-}
-
+  radioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  
+  radioCircle: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#450000',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  
+  selectedRb: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: '#450000',
+  },
+  
+  radioText: {
+    fontSize: 16,
   }
+}
 )
 
