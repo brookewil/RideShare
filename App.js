@@ -12,6 +12,8 @@ import RequestScreen from './screens/RequestScreen';
 import PlanRideScreen from './screens/PlanRideScreen';
 import RideStatusScreen from './screens/RideStatusScreen';
 import SignUpScreen from './SignUpScreen';
+import ChatScreen from './screens/ChatScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +24,8 @@ const HomeStack = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
         <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
+        <Stack.Screen name="Request" component={RequestScreen} />
+        <Stack.Screen name="PlanRide" component={PlanRideScreen} />
         <Stack.Screen name="Ride Status" component={RideStatusScreen} />
         <Stack.Screen name="Sign Up" component={SignUpScreen} />
       </Stack.Navigator>
@@ -32,8 +36,18 @@ const Tab = createBottomTabNavigator();
 
 export function TabNavigator() {
   return (
-        <Tab.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+        <Tab.Navigator initialRouteName="Login" 
+        screenOptions={{ headerShown: false, 
+            tabBarActiveTintColor: '#fff',
+            tabBarInactiveTintColor: '#ccc',
+            tabBarStyle: {
+              backgroundColor: '#450000',
+              paddingTop: 5,
+              height: 60,
+            },}}>
+
             <Stack.Screen name="Login" component={LoginScreen} />
+
             <Tab.Screen name="UserHome" component={UserHomeScreen} 
             options={{
             tabBarLabel: 'Home',
@@ -41,18 +55,19 @@ export function TabNavigator() {
             <Ionicons name="home" color={color} size={size} />
             ),
         }} />
-            <Tab.Screen name="Request" component={RequestScreen} 
+
+            <Tab.Screen name="Chat" component={ChatScreen} 
             options={{
-            tabBarLabel: 'Request',
+            tabBarLabel: 'Chat',
             tabBarIcon: ({ color, size }) => (
-            <Ionicons name="book" color={color} size={size} />
+            <Ionicons name="chatbox" color={color} size={size} />
             ),
         }} />
-            <Tab.Screen name="Plan a Ride" component={PlanRideScreen} 
+            <Tab.Screen name="Profile" component={ProfileScreen} 
             options={{
-                tabBarLabel: 'Plan a Ride',
+                tabBarLabel: 'Profile',
                 tabBarIcon: ({ color, size }) => (
-                <Ionicons name="alarm" color={color} size={size} />
+                <Ionicons name="person" color={color} size={size} />
             ),
         }} />
         </Tab.Navigator>
