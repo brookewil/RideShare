@@ -80,6 +80,7 @@ function MapRS() {
 
     if (!location){
         // If no Location, Uses map centered on Ithaca College, Ithaca NY
+        console.log("No Location Found, using Default Location");
         return (
             <View style = {styles.container}>
                 <MapView
@@ -98,6 +99,7 @@ function MapRS() {
 
     return (
         // If Location is provided, show map centered on User Location
+        console.log("User Location Found"),
         <View style = {styles.container}>
             <GooglePlacesAutocomplete
                 // Google Places API for User to search for and select Destination
@@ -133,7 +135,7 @@ function MapRS() {
                 }}
             />
             <MapView
-                // provider = "google"
+                // Apple Maps
                 style = {styles.map}
                 // Shows user location area
                 initialRegion = {{
@@ -166,6 +168,7 @@ function MapRS() {
                         )}
                         {destination && (
                             <MapViewDirections
+                                // The line drawn between User Location and Destination
                                 origin = {location}
                                 destination = {destination}
                                 apikey = {GOOGLE_API}
@@ -190,5 +193,7 @@ const styles = StyleSheet.create({
         height: '100%',
     },
 });
+
+console.log("Good Map Initialize");
 
 export default MapRS;
