@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 const HomeStack = () => {
    
     return (
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Login" headerShown={false}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
         <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
