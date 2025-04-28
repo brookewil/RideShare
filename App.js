@@ -20,10 +20,10 @@ const Stack = createNativeStackNavigator();
 const HomeStack = () => {
    
     return (
-      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Navigator initialRouteName="UserHome" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
         <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
+        <Stack.Screen name="UserHome" component={UserHomeScreen} />
         <Stack.Screen name="Request" component={RequestScreen} />
         <Stack.Screen name="PlanRide" component={PlanRideScreen} />
         <Stack.Screen name="Ride Status" component={RideStatusScreen} />
@@ -48,7 +48,7 @@ export function TabNavigator() {
 
             <Stack.Screen name="Login" component={LoginScreen} />
 
-            <Tab.Screen name="UserHome" component={UserHomeScreen} 
+            <Tab.Screen name="UserHome" component={HomeStack}
             options={{
             tabBarLabel: 'Home',
             tabBarIcon: ({ color, size }) => (

@@ -22,8 +22,6 @@ function RequestScreen(){
             <MapRS/>
           </View>
 
-
-
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('RideStatus')}>

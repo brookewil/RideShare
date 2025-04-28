@@ -1,15 +1,12 @@
 import * as React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { styles } from '../styles.js';
 import MapRS from '../Map';
 
-const Tab = createBottomTabNavigator();
-
 // The original home content with the map and buttons
 function UserHomeScreen() {
+
   const navigation = useNavigation();
 
   return (
