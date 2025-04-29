@@ -8,6 +8,8 @@ import MapRS from '../Map';
 
 const Tab = createBottomTabNavigator();
 
+// TODO: Await for a driver to accept the ride, then show the driver on the same map
+
 // The original home content with the map and buttons
 function HomeTab() {
   const navigation = useNavigation();
