@@ -3,31 +3,82 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
 import LoginScreen from './screens/LoginScreen';
 import UserHomeScreen from './screens/UserHomeScreen';
 import AdminHomeScreen from './screens/AdminHomeScreen';
 import DriverHomeScreen from './screens/DriverHomeScreen';
 import RequestScreen from './screens/RequestScreen';
 import PlanRideScreen from './screens/PlanRideScreen';
+import RideStatusScreen from './screens/RideStatusScreen';
 import SignUpScreen from './SignUpScreen';
+import ChatScreen from './screens/ChatScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
-function App() {
+const HomeStack = () => {
+   
+    return (
+      <Stack.Navigator initialRouteName="UserHome" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
+        <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
+        <Stack.Screen name="UserHome" component={UserHomeScreen} />
+        <Stack.Screen name="Request" component={RequestScreen} />
+        <Stack.Screen name="PlanRide" component={PlanRideScreen} />
+        <Stack.Screen name="Ride Status" component={RideStatusScreen} />
+        <Stack.Screen name="Sign Up" component={SignUpScreen} />
+      </Stack.Navigator>
+    )
+}
+
+const Tab = createBottomTabNavigator();
+
+export function TabNavigator() {
+  return (
+        <Tab.Navigator initialRouteName="Login" 
+        screenOptions={{ headerShown: false, 
+            tabBarActiveTintColor: '#fff',
+            tabBarInactiveTintColor: '#ccc',
+            tabBarStyle: {
+              backgroundColor: '#450000',
+              paddingTop: 5,
+              height: 60,
+            },}}>
+
+            <Stack.Screen name="Login" component={LoginScreen} />
+
+            <Tab.Screen name="UserHome" component={HomeStack}
+            options={{
+            tabBarLabel: 'Home',
+            tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" color={color} size={size} />
+            ),
+        }} />
+
+            <Tab.Screen name="Chat" component={ChatScreen} 
+            options={{
+            tabBarLabel: 'Chat',
+            tabBarIcon: ({ color, size }) => (
+            <Ionicons name="chatbox" color={color} size={size} />
+            ),
+        }} />
+            <Tab.Screen name="Profile" component={ProfileScreen} 
+            options={{
+                tabBarLabel: 'Profile',
+                tabBarIcon: ({ color, size }) => (
+                <Ionicons name="person" color={color} size={size} />
+            ),
+        }} />
+        </Tab.Navigator>
+   )
+}
+
+export default function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Login">
-                <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-                <Stack.Screen name="UserHome" component={UserHomeScreen} options={{ headerShown: false }}/>
-                <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
-                <Stack.Screen name="DriverHome" component={DriverHomeScreen}options={{ headerShown: false }} />
-                <Stack.Screen name="Request" component={RequestScreen} options={{ headerShown: false }} />
-                <Stack.Screen name="PlanRide" component={PlanRideScreen} />
-                <Stack.Screen name="SignUp" component={SignUpScreen}options={{ headerShown: false }} />
-            </Stack.Navigator>
-        </NavigationContainer>
+           <TabNavigator />
+         </NavigationContainer>
         
      );
 }
-
-export default App;

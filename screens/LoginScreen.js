@@ -53,8 +53,6 @@ export default function LoginScreen() {
       return;
     }
     
-
-    
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
@@ -99,7 +97,7 @@ useEffect(() => {
   }
 }, [showSignup]);
   return (
-    <View style={styles.container}>
+    <View style={styles.loginContainer}>
       <Image source={require('../assets/logo.png')} style={{ width: 200, height: 100, alignSelf: 'center', marginTop: 30, marginBottom: 30 }}  />
 
       <Text style={styles.title}>Enter Email</Text>

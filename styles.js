@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  container: {
+  loginContainer: {
     flexGrow: 1,
     backgroundColor: '#fff',
     justifyContent: 'center',
@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     marginTop: 10,
   },
 
-  welcomeTitle: {
+  headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 7,
@@ -45,36 +45,57 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     textAlign: 'center',
-   },
-   radioGroup: {
-  flexDirection: 'column',
-  marginVertical: 20,
-},
-radioButton: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  marginBottom: 15,
-},
-radioCircle: {
-  height: 24,
-  width: 24,
-  borderRadius: 12,
-  borderWidth: 2,
-  borderColor: '#450000',
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginRight: 10,
-},
-selectedRb: {
-  width: 12,
-  height: 12,
-  borderRadius: 6,
-  backgroundColor: '#450000',
-},
-radioText: {
-  fontSize: 16,
-}
+  },
 
+  map: {
+    height: '55%', 
+    width: '100%', 
+    overflow: 'hidden',
+    flex: 0.5,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 10,
+  },
+
+  mapContainer: {
+    backgroundColor: '#fff',
+    flex: 1,
+    padding: 10,
+    marginTop: 40,
+  },
+    
+  radioGroup: {
+    flexDirection: 'column',
+    marginVertical: 20,
+  },
+  
+  radioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  
+  radioCircle: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#450000',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  
+  selectedRb: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: '#450000',
+  },
+  
+  radioText: {
+    fontSize: 16,
   }
+}
 )
 
