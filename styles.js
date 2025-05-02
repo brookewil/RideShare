@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
     height: '55%', 
     width: '100%', 
     overflow: 'hidden',
-    flex: 0.5,
+    flex: 0.7,
     flexDirection: 'column',
     justifyContent: 'center',
     padding: 10,
