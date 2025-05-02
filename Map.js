@@ -13,8 +13,6 @@ import { inMemoryPersistence } from 'firebase/auth'; // This import just appeare
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import MapViewDirections from 'react-native-maps-directions';
 
-
-import { GOOGLE_API_KEY } from '@env';
 // Ithaca College Coords:
 // 42.422668, -76.494209
 // Used as Base Location if User Location is unavailable
