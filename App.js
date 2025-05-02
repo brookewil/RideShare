@@ -26,7 +26,7 @@ const HomeStack = () => {
         <Stack.Screen name="UserHome" component={UserHomeScreen} />
         <Stack.Screen name="Request" component={RequestScreen} />
         <Stack.Screen name="PlanRide" component={PlanRideScreen} />
-        <Stack.Screen name="Ride Status" component={RideStatusScreen} />
+        <Stack.Screen name="RideStatus" component={RideStatusScreen} />
         <Stack.Screen name="Sign Up" component={SignUpScreen} />
       </Stack.Navigator>
     )
