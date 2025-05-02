@@ -20,7 +20,8 @@ const Stack = createNativeStackNavigator();
 const HomeStack = () => {
    
     return (
-      <Stack.Navigator initialRouteName="UserHome" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+        <Tab.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
         <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
         <Stack.Screen name="UserHome" component={UserHomeScreen} />
@@ -36,27 +37,24 @@ const Tab = createBottomTabNavigator();
 
 export function TabNavigator() {
   return (
-        <Tab.Navigator initialRouteName="Login" 
+        <Tab.Navigator initialRouteName='hidden'
         screenOptions={{ headerShown: false, 
             tabBarActiveTintColor: '#fff',
             tabBarInactiveTintColor: '#ccc',
+            tabBarHideOnKeyboard: 'true',
             tabBarStyle: {
               backgroundColor: '#450000',
               paddingTop: 5,
               height: 60,
             },}}>
 
-<Tab.Screen name="Login" component={LoginScreen} />
-
-
-<Tab.Screen name="HomeTab" component={HomeStack} 
-    options={{
-        tabBarLabel: 'Home',
-        tabBarIcon: ({ color, size }) => (
+          <Tab.Screen name="HomeTab" component={HomeStack} 
+          options={{
+            tabBarLabel: 'Home',
+            tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
-        ),
-    }} 
-/>
+          ),
+        }} />
 
 
             <Tab.Screen name="Chat" component={ChatScreen} 
