@@ -17,6 +17,15 @@ import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
+function AuthStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Sign Up" component={SignUpScreen} />
+    </Stack.Navigator>
+  );
+}
+
 const HomeStack = () => {
    
     return (
@@ -76,10 +85,12 @@ export function TabNavigator() {
 }
 
 export default function App() {
-    return (
-        <NavigationContainer>
-           <TabNavigator />
-         </NavigationContainer>
-        
-     );
+  
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  return (
+    <NavigationContainer>
+      {isLoggedIn ? <TabNavigator /> : <AuthStack setIsLoggedIn={setIsLoggedIn}/>}
+    </NavigationContainer>
+  );
 }
