@@ -68,6 +68,7 @@ async function UserLocation() {
     }
 }
 
+// This is moved to its own file
 async function UserPickup() {
     // When Driver Location is "close" to User pick up Location, show "User Picked Up Button"
     // AWAIT for the Rider being picked up to also press the same button

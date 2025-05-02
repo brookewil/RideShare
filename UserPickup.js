@@ -22,7 +22,7 @@ async function PickupDriver() {
 
     // PC:
     // if (userLocation - driverLocation < .1) {
-    //     show button pickupUser
+    //     show button pickupUser;
     // }
     // await userGotInCar();
     // setUserPickedUp(true);
@@ -30,4 +30,10 @@ async function PickupDriver() {
 
 async function PickupRider() {
     // Same as Driver, but for Riders
+
+    // PC:
+    // if (driverPickup) {
+    //    show button gotInCar;
+    // }
+    // return true to PickupDriver
 }
