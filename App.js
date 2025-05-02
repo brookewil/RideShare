@@ -46,15 +46,18 @@ export function TabNavigator() {
               height: 60,
             },}}>
 
-            <Stack.Screen name="Login" component={LoginScreen} />
+<Tab.Screen name="Login" component={LoginScreen} />
 
-            <Tab.Screen name="UserHome" component={HomeStack}
-            options={{
-            tabBarLabel: 'Home',
-            tabBarIcon: ({ color, size }) => (
+
+<Tab.Screen name="HomeTab" component={HomeStack} 
+    options={{
+        tabBarLabel: 'Home',
+        tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
-            ),
-        }} />
+        ),
+    }} 
+/>
+
 
             <Tab.Screen name="Chat" component={ChatScreen} 
             options={{
