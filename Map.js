@@ -1,6 +1,6 @@
 // ---IMPORTS---
 import React, {useState, useEffect} from 'react';
-// import {GOOGLE_API_KEY} from '@env';
+import {GOOGLE_API_KEY} from '@env';
 
 // Map Imports
 import MapView, {Marker} from 'react-native-maps';
