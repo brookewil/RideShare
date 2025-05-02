@@ -64,7 +64,7 @@ export default function LoginScreen() {
 
     if (adminSnap.exists()) {
       Alert.alert('Welcome Admin!');
-      navigation.navigate('AdminHome');
+      navigation.navigate('HomeTab', { screen: 'AdminHome' });
       return;
     }
 
@@ -77,10 +77,10 @@ export default function LoginScreen() {
 
       if (userData.type === 'driver') {
         Alert.alert('Welcome Driver!');
-        navigation.navigate('DriverHome');
+        navigation.navigate('HomeTab', { screen: 'DriverHome' });
       } else {
         Alert.alert('Welcome User!');
-        navigation.navigate('UserHome');
+        navigation.navigate('HomeTab', { screen: 'UserHome' });
       }
     } else {
       Alert.alert('Login Failed', error.message);

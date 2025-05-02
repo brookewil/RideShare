@@ -4,8 +4,7 @@ import React, {useState, useEffect} from 'react';
 
 // Map Imports
 import MapView, {Marker} from 'react-native-maps';
-import {StyleSheet, View} from 'react-native';
-
+import { StyleSheet, View, Text } from 'react-native';
 // Location Imports
 import * as Location from 'expo-location';
 import { inMemoryPersistence } from 'firebase/auth'; // This import just appeared at some point, LMK if still needed
@@ -14,6 +13,8 @@ import { inMemoryPersistence } from 'firebase/auth'; // This import just appeare
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import MapViewDirections from 'react-native-maps-directions';
 
+
+import { GOOGLE_API_KEY } from '@env';
 // Ithaca College Coords:
 // 42.422668, -76.494209
 // Used as Base Location if User Location is unavailable
@@ -25,7 +26,7 @@ const IC_COORDS = {
 // ---DEFS---
 // Google Maps API Key
 // const GOOGLE_API = GOOGLE_API_KEY;
-const GOOGLE_API = 'AIzaSyCD9-sChwm8Hp1Iwu73a9G2HJCQbGXmJxs'
+const GOOGLE_API = GOOGLE_API_KEY;
 
 // Map Size
 const DELTA_LAT = 0.0922;
@@ -63,11 +64,10 @@ async function UserLocation() {
 }
 
 function MapRS() {
-    // Initialize and create Map Object, Called outside Map.js
-    // Used for User Location
     const [location, setLocation] = React.useState(null);
     const [destination, setDestination] = React.useState(null);
     const [mapLoaded, setMapLoaded] = React.useState(false);
+    const [loading, setLoading] = React.useState(true); // <<< NEW loading state
 
     useEffect(() => {
         (async () => {
@@ -75,50 +75,56 @@ function MapRS() {
             if (userLocation) {
                 setLocation(userLocation);
             }
+            setLoading(false); // <<< Once finished, set loading to false
         })();
     }, []);
 
-    if (!location){
-        // If no Location, Uses map centered on Ithaca College, Ithaca NY
+    if (loading) {
+        // <<< NEW: while loading user location, show simple loading screen
+        return (
+            <View style={styles.container}>
+                <Text>Loading map...</Text>
+            </View>
+        );
+    }
+
+    if (!location) {
+        // <<< FALLBACK: if couldn't get user location, show IC map
         console.log("No Location Found, using Default Location");
         return (
-            <View style = {styles.container}>
+            <View style={styles.container}>
                 <MapView
-                    style = {styles.map}
-                    initialRegion = {{
+                    style={styles.map}
+                    initialRegion={{
                         latitude: IC_COORDS.latitude,
                         longitude: IC_COORDS.longitude,
                         latitudeDelta: DELTA_LAT,
                         longitudeDelta: DELTA_LNG,
                     }}
-                >
-                </MapView>
+                />
             </View>
         );
     }
 
+    console.log("User Location Found");
     return (
-        // If Location is provided, show map centered on User Location
-        console.log("User Location Found"),
-        <View style = {styles.container}>
+        <View style={styles.container}>
             <GooglePlacesAutocomplete
-                // Google Places API for User to search for and select Destination
-                placeholder = 'Search' // What appears in the search bar when inactive
-                minLength={MIN_WORD_SEARCH} // Minimum number of characters to init search
-                fetchDetails = {true} // Fetches details of the selected Destination
-                enablePoweredByContainer = {false} // Hides "Powered by Google" text
-                onPress = {(data, details = null) => {
+                placeholder='Search'
+                minLength={MIN_WORD_SEARCH}
+                fetchDetails={true}
+                enablePoweredByContainer={false}
+                onPress={(data, details = null) => {
                     if (details) {
-                        const {lat, lng} = details.geometry.location;
-                        console.log("User Searched for and choose Location: ", lat, lng);
-                        setDestination ({
+                        const { lat, lng } = details.geometry.location;
+                        console.log("User Searched for and chose Location:", lat, lng);
+                        setDestination({
                             latitude: lat,
                             longitude: lng,
                         });
-                        // console.log(data, details);
                     }
                 }}
-                query = {{
+                query={{
                     key: GOOGLE_API,
                     language: 'en',
                 }}
@@ -135,46 +141,40 @@ function MapRS() {
                 }}
             />
             <MapView
-                // Apple Maps
-                style = {styles.map}
-                // Shows user location area
-                showsUserLocation = {true}
-                initialRegion = {{
+                style={styles.map}
+                showsUserLocation={true}
+                initialRegion={{
                     latitude: location.latitude,
                     longitude: location.longitude,
                     latitudeDelta: DELTA_LAT,
                     longitudeDelta: DELTA_LNG,
                 }}
-                // Only set mapLoaded to true when onMapReady
-                onMapReady = {() => setMapLoaded(true)}
+                onMapReady={() => setMapLoaded(true)}
             >
                 {mapLoaded && (
                     <>
                         <Marker
-                            // Marker object is User Location "exact"
-                            coordinate = {{
-                                latitude: location.latitude, 
+                            coordinate={{
+                                latitude: location.latitude,
                                 longitude: location.longitude,
                             }}
-                            title = "Your Location"
-                            description = "Disclaimer: User Position may not be Exact"
+                            title="Your Location"
+                            description="Disclaimer: User Position may not be Exact"
                         />
                         {destination && (
                             <Marker
-                                // Marker object for Destination
-                                coordinate = {destination} // This holds both lat, lng
-                                title = "Destination"
-                                description = "User Selected Destination"
+                                coordinate={destination}
+                                title="Destination"
+                                description="User Selected Destination"
                             />
                         )}
                         {destination && (
                             <MapViewDirections
-                                // The line drawn between User Location and Destination
-                                origin = {location}
-                                destination = {destination}
-                                apikey = {GOOGLE_API}
-                                strokeWidth = {ROUTE_WIDTH}
-                                strokeColor = {ROUTE_COLOR}
+                                origin={location}
+                                destination={destination}
+                                apikey={GOOGLE_API}
+                                strokeWidth={ROUTE_WIDTH}
+                                strokeColor={ROUTE_COLOR}
                             />
                         )}
                     </>
@@ -183,6 +183,7 @@ function MapRS() {
         </View>
     );
 }
+
 
 // Map Style Sheet
 const styles = StyleSheet.create({
