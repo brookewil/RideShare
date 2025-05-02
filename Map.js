@@ -1,6 +1,6 @@
 // ---IMPORTS---
 import React, {useState, useEffect} from 'react';
-// import {GOOGLE_API_KEY} from '@env';
+import {GOOGLE_API_KEY} from '@env';
 
 // Map Imports
 import MapView, {Marker} from 'react-native-maps';
@@ -69,138 +69,12 @@ async function UserLocation() {
     }
 }
 
-async function UserPickup() {
-    // When Driver Location is "close" to User pick up Location, show "User Picked Up Button"
-    // AWAIT for the Rider being picked up to also press the same button
-    // AFTER Set UserPickedUp to true, show the destination marker and route
-    // TODO: Implement
-
-    // PC:
-    // if (userLocation - driverLocation < .1) {
-    //     show button pickupUser
-    // }
-    // await userGotInCar();
-    // setUserPickedUp(true);
-}
-
-function MapDriver() {
-    // TODO: Add Google Directions feature to the driver map for both directions to the Rider and to their Destination
-
-    const [driverLocation, setDriverLocation] = React.useState(null);
-    const [userLocation, setUserLocation] = React.useState(null);
-    const [userDestination, setUserDestination] = React.useState(null);
-    const [userPickedUp, setUserPickedUp] = React.useState(false);
-    
-    const [mapLoaded, setMapLoaded] = React.useState(false);
-
-    useEffect(() => {
-        (async () => {
-            const driverLocation = await UserLocation();
-            if (driverLocation) {
-                setDriverLocation(driverLocation);
-            }
-        })();
-    }, []);
-
-    if (!driverLocation){
-        console.log("Driver Location not found");
-
-        // TODO: Add Text that says  "Driver Location must be Active to driver with RideShare"
-        return (
-            <View style = {styles.container}>
-                <MapView
-                    style = {styles.map}
-                    initialRegion = {{
-                        latitude: IC_COORDS.latitude,
-                        longitude: IC_COORDS.longitude,
-                        latitudeDelta: DELTA_LAT,
-                        longitudeDelta: DELTA_LNG,
-                    }}
-                >
-                </MapView>
-            </View>
-        );
-    }
-
-    return (
-        console.log("Driver Location found"),
-        <View style = {styles.container}>
-            <MapView
-                // Apple Maps
-                style = {styles.map}
-                // Shows user location area
-                showsUserLocation = {true}
-                initialRegion = {{
-                    latitude: driverLocation.latitude,
-                    longitude: driverLocation.longitude,
-                    latitudeDelta: DELTA_LAT,
-                    longitudeDelta: DELTA_LNG,
-                }}
-                // Only set mapLoaded to true when onMapReady
-                onMapReady = {() => setMapLoaded(true)}
-            >
-                {mapLoaded && (
-                    <>
-                        <Marker
-                            // Marker object for Driver Location
-                            coordinate = {{
-                                latitude: driverLocation.latitude, 
-                                longitude: driverLocation.longitude,
-                            }}
-                            title = "Your Location"
-                            description = "Disclaimer: User Position may not be Exact"
-                        />
-                        {userLocation && !userPickedUp &&(
-                            <Marker
-                                // Marker object for User Location
-                                // Only shows when userPickedUp is false
-                                coordinate = {userLocation}
-                                title = "Rider Pickup Location"
-                                description= "The Rider should be Visible from this Location"
-                            />
-                        )}
-                        {userLocation && !userPickedUp && (
-                            <MapViewDirections
-                                // Draws a line between Driver Location and User Pick Up Location
-                                // Only shows when userPickedUp is false
-                                origin = {driverLocation}
-                                destination = {userLocation}
-                                apikey = {GOOGLE_API}
-                                strokeWidth = {ROUTE_WIDTH}
-                                strokeColor = {ROUTE_COLOR}
-                            />
-                        )}
-                        {userDestination && (
-                            <Marker
-                                // Marker object for Destination
-                                coordinate = {userDestination}
-                                title = "Destination"
-                                description = "User Selected Destination"
-                            />
-                        )}
-                        {userDestination && userPickedUp && (
-                            <MapViewDirections
-                                // The line drawn between User Location and Destination
-                                // Only shows whne userPickedUp
-                                origin = {driverLocation}
-                                destination = {userDestination}
-                                apikey = {GOOGLE_API}
-                                strokeWidth = {ROUTE_WIDTH}
-                                strokeColor = {ROUTE_COLOR}
-                            />
-                        )}
-                    </>
-                )}
-            </MapView>
-        </View>
-    )
-}
-
 function MapRS() {
     const [location, setLocation] = React.useState(null);
     const [destination, setDestination] = React.useState(null);
     const [mapLoaded, setMapLoaded] = React.useState(false);
-    const [loading, setLoading] = React.useState(true); // <<< NEW loading state
+    const [loading, setLoading] = React.useState(true);
+    const [driverAssigned, setDriverAssigned] = React.useState(false);
 
     useEffect(() => {
         (async () => {
@@ -208,12 +82,12 @@ function MapRS() {
             if (userLocation) {
                 setLocation(userLocation);
             }
-            setLoading(false); // <<< Once finished, set loading to false
+            setLoading(false); // Once finished, set loading to false
         })();
     }, []);
 
     if (loading) {
-        // <<< NEW: while loading user location, show simple loading screen
+        // While loading user location, show simple loading screen
         return (
             <View style={styles.container}>
                 <Text>Loading map...</Text>
@@ -222,7 +96,7 @@ function MapRS() {
     }
 
     if (!location) {
-        // <<< FALLBACK: if couldn't get user location, show IC map
+        // If couldn't get user location, show IC map
         console.log("No Location Found, using Default Location");
         return (
             <View style={styles.container}>
@@ -243,6 +117,7 @@ function MapRS() {
     return (
         <View style={styles.container}>
             <GooglePlacesAutocomplete
+                // Google-Powered Search for Location, used for Rider Destination
                 placeholder='Search'
                 minLength={MIN_WORD_SEARCH}
                 fetchDetails={true}
@@ -274,6 +149,7 @@ function MapRS() {
                 }}
             />
             <MapView
+                // Apple Maps
                 style={styles.map}
                 showsUserLocation={true}
                 initialRegion={{
@@ -287,6 +163,7 @@ function MapRS() {
                 {mapLoaded && (
                     <>
                         <Marker
+                            // User Location
                             coordinate={{
                                 latitude: location.latitude,
                                 longitude: location.longitude,
@@ -296,6 +173,7 @@ function MapRS() {
                         />
                         {destination && (
                             <Marker
+                                // User Destination
                                 coordinate={destination}
                                 title="Destination"
                                 description="User Selected Destination"
@@ -303,6 +181,7 @@ function MapRS() {
                         )}
                         {destination && (
                             <MapViewDirections
+                                // Draws a line between User Location and Destination
                                 origin={location}
                                 destination={destination}
                                 apikey={GOOGLE_API}
@@ -310,6 +189,27 @@ function MapRS() {
                                 strokeColor={ROUTE_COLOR}
                             />
                         )}
+                        {/* {driverAssigned && (
+                            <Marker
+                                // Driver Location
+                                coordinate={{
+                                    latitude: 0.0,
+                                    longitude: 0.0,
+                                }}
+                                title = "Driver Location"
+                                description = 'Driver Assigned to your Ride'
+                            />
+                        )}
+                        {driverAssigned && (
+                            <MapViewDirections
+                                // Draws a line between Driver Location and User Location
+                                origin={location} // Change to driver location
+                                destination={location} // Rider Location
+                                apikey={GOOGLE_API}
+                                strokeWidth={ROUTE_WIDTH}
+                                strokeColor={ROUTE_COLOR}
+                            />
+                        )} */}
                     </>
                 )}
             </MapView>
