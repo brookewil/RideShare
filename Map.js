@@ -13,8 +13,11 @@ import { inMemoryPersistence } from 'firebase/auth'; // This import just appeare
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import MapViewDirections from 'react-native-maps-directions';
 
+// ---DEFS---
+// Google Maps API Key
+// const GOOGLE_API = GOOGLE_API_KEY;
+const GOOGLE_API = GOOGLE_API_KEY;
 
-import { GOOGLE_API_KEY } from '@env';
 // Ithaca College Coords:
 // 42.422668, -76.494209
 // Used as Base Location if User Location is unavailable
@@ -22,11 +25,6 @@ const IC_COORDS = {
     latitude: 42.422668,
     longitude: -76.494209
 }
-
-// ---DEFS---
-// Google Maps API Key
-// const GOOGLE_API = GOOGLE_API_KEY;
-const GOOGLE_API = GOOGLE_API_KEY;
 
 // Map Size
 const DELTA_LAT = 0.0922;
