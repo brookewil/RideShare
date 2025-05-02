@@ -17,10 +17,12 @@ import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
-function AuthStack() {
+function AuthStack({ setIsLoggedIn }) {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Login"> 
+        {() => <LoginScreen setIsLoggedIn={setIsLoggedIn} />}
+      </Stack.Screen>
       <Stack.Screen name="Sign Up" component={SignUpScreen} />
     </Stack.Navigator>
   );
@@ -29,15 +31,13 @@ function AuthStack() {
 const HomeStack = () => {
    
     return (
-      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-        <Tab.Screen name="Login" component={LoginScreen} />
+      <Stack.Navigator initialRouteName="UserHome" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
         <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
         <Stack.Screen name="UserHome" component={UserHomeScreen} />
         <Stack.Screen name="Request" component={RequestScreen} />
         <Stack.Screen name="PlanRide" component={PlanRideScreen} />
         <Stack.Screen name="RideStatus" component={RideStatusScreen} />
-        <Stack.Screen name="Sign Up" component={SignUpScreen} />
       </Stack.Navigator>
     )
 }
@@ -46,7 +46,7 @@ const Tab = createBottomTabNavigator();
 
 export function TabNavigator() {
   return (
-        <Tab.Navigator initialRouteName='hidden'
+        <Tab.Navigator initialRouteName='HomeTab'
         screenOptions={{ headerShown: false, 
             tabBarActiveTintColor: '#fff',
             tabBarInactiveTintColor: '#ccc',

@@ -18,7 +18,7 @@ import { db } from '../firebaseConfig';
 
 import {initMap} from '../Map.js';
 
-export default function LoginScreen(setIsLoggedIn) {
+export default function LoginScreen({setIsLoggedIn}) {
   
   //const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
