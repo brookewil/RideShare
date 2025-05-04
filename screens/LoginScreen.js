@@ -18,7 +18,7 @@ import { db } from '../firebaseConfig';
 
 import {initMap} from '../Map.js';
 
-export default function LoginScreen() {
+export default function LoginScreen({setIsLoggedIn}) {
   
   //const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -26,7 +26,6 @@ export default function LoginScreen() {
   const [showSignup, setShowSignup] = useState(false); // to toggle view
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
-
 
   // add email validation method, check isValid, and then alert "welcome"
   const validateEmail = (email) => {
@@ -64,6 +63,7 @@ export default function LoginScreen() {
 
     if (adminSnap.exists()) {
       Alert.alert('Welcome Admin!');
+      setIsLoggedIn(true);              // allow navbar to appear
       navigation.navigate('HomeTab', { screen: 'AdminHome' });
       return;
     }
@@ -74,6 +74,7 @@ export default function LoginScreen() {
 
     if (userSnap.exists()) {
       const userData = userSnap.data();
+      setIsLoggedIn(true);              // navbar appear
 
       if (userData.type === 'driver') {
         Alert.alert('Welcome Driver!');

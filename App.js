@@ -17,6 +17,17 @@ import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
+function AuthStack({ setIsLoggedIn }) {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Login"> 
+        {() => <LoginScreen setIsLoggedIn={setIsLoggedIn} />}
+      </Stack.Screen>
+      <Stack.Screen name="Sign Up" component={SignUpScreen} />
+    </Stack.Navigator>
+  );
+}
+
 const HomeStack = () => {
    
     return (
@@ -27,7 +38,6 @@ const HomeStack = () => {
         <Stack.Screen name="Request" component={RequestScreen} />
         <Stack.Screen name="PlanRide" component={PlanRideScreen} />
         <Stack.Screen name="RideStatus" component={RideStatusScreen} />
-        <Stack.Screen name="Sign Up" component={SignUpScreen} />
       </Stack.Navigator>
     )
 }
@@ -36,27 +46,24 @@ const Tab = createBottomTabNavigator();
 
 export function TabNavigator() {
   return (
-        <Tab.Navigator initialRouteName="Login" 
+        <Tab.Navigator initialRouteName='HomeTab'
         screenOptions={{ headerShown: false, 
             tabBarActiveTintColor: '#fff',
             tabBarInactiveTintColor: '#ccc',
+            tabBarHideOnKeyboard: 'true',
             tabBarStyle: {
               backgroundColor: '#450000',
               paddingTop: 5,
               height: 60,
             },}}>
 
-<Tab.Screen name="Login" component={LoginScreen} />
-
-
-<Tab.Screen name="HomeTab" component={HomeStack} 
-    options={{
-        tabBarLabel: 'Home',
-        tabBarIcon: ({ color, size }) => (
+          <Tab.Screen name="HomeTab" component={HomeStack} 
+          options={{
+            tabBarLabel: 'Home',
+            tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
-        ),
-    }} 
-/>
+          ),
+        }} />
 
 
             <Tab.Screen name="Chat" component={ChatScreen} 
@@ -78,10 +85,12 @@ export function TabNavigator() {
 }
 
 export default function App() {
-    return (
-        <NavigationContainer>
-           <TabNavigator />
-         </NavigationContainer>
-        
-     );
+  
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  return (
+    <NavigationContainer>
+      {isLoggedIn ? <TabNavigator /> : <AuthStack setIsLoggedIn={setIsLoggedIn}/>}
+    </NavigationContainer>
+  );
 }

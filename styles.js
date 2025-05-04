@@ -95,7 +95,11 @@ export const styles = StyleSheet.create({
   
   radioText: {
     fontSize: 16,
-  }
+  },
+
+  navigation: {
+    display: 'none',
+  },
 }
 )
 
