@@ -52,7 +52,7 @@ export default function UserHomeScreen({ navigation }) {
 
        <Text style={styles.headerTitle}>Welcome Back</Text>
        <View style = {styles.map}>
-         <MapRS/>
+         <MapRS mode = "rider"/>
        </View>
 
      <TouchableOpacity

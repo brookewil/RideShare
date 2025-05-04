@@ -8,10 +8,16 @@ import {styles} from '../styles.js';
 
 function DriverHomeScreen() {
   return (
-     <View style={{ flex: 1, alignItems:   
-           'center', justifyContent: 'center' }}>
-       <Text>Driver Home Screen</Text>
-     </View>
+    //  <View style={{ flex: 1, alignItems:   
+    //        'center', justifyContent: 'center' }}>
+    //    <Text>Driver Home Screen</Text>
+    //  </View>
+    <View style = {styles.mapContainer}>
+      <Text>Driver Home Screen</Text>
+      <View style = {styles.map}>
+         <MapRS mode = "rider"/>
+      </View>
+    </View>
   );
 }
 

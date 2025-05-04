@@ -67,7 +67,7 @@ async function UserLocation() {
     }
 }
 
-function MapRS() {
+function MapRS({userType}) {
     const [location, setLocation] = React.useState(null);
     const [destination, setDestination] = React.useState(null);
     const [mapLoaded, setMapLoaded] = React.useState(false);
@@ -82,7 +82,7 @@ function MapRS() {
             }
             setLoading(false); // Once finished, set loading to false
         })();
-    }, []);
+    }, [userType]);
 
     if (loading) {
         // While loading user location, show simple loading screen
@@ -114,38 +114,40 @@ function MapRS() {
     console.log("User Location Found");
     return (
         <View style={styles.container}>
-            <GooglePlacesAutocomplete
-                // Google-Powered Search for Location, used for Rider Destination
-                placeholder='Search'
-                minLength={MIN_WORD_SEARCH}
-                fetchDetails={true}
-                enablePoweredByContainer={false}
-                onPress={(data, details = null) => {
-                    if (details) {
-                        const { lat, lng } = details.geometry.location;
-                        console.log("User Searched for and chose Location:", lat, lng);
-                        setDestination({
-                            latitude: lat,
-                            longitude: lng,
-                        });
-                    }
-                }}
-                query={{
-                    key: GOOGLE_API,
-                    language: 'en',
-                }}
-                styles={{
-                    container: {
-                        flex: 0,
-                        position: 'absolute',
-                        width: '100%',
-                        zIndex: 1,
-                    },
-                    listView: {
-                        backgroundColor: 'white',
-                    },
-                }}
-            />
+            {userType === 'rider' && (
+                <GooglePlacesAutocomplete
+                    // Google-Powered Search for Location, used for Rider Destination
+                    placeholder='Search'
+                    minLength={MIN_WORD_SEARCH}
+                    fetchDetails={true}
+                    enablePoweredByContainer={false}
+                    onPress={(data, details = null) => {
+                        if (details) {
+                            const { lat, lng } = details.geometry.location;
+                            console.log("User Searched for and chose Location:", lat, lng);
+                            setDestination({
+                                latitude: lat,
+                                longitude: lng,
+                            });
+                        }
+                    }}
+                    query={{
+                        key: GOOGLE_API,
+                        language: 'en',
+                    }}
+                    styles={{
+                        container: {
+                            flex: 0,
+                            position: 'absolute',
+                            width: '100%',
+                            zIndex: 1,
+                        },
+                        listView: {
+                            backgroundColor: 'white',
+                        },
+                    }}
+                />
+            )}
             <MapView
                 // Apple Maps
                 style={styles.map}
