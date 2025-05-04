@@ -36,6 +36,7 @@ const HomeStack = () => {
         <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
         <Stack.Screen name="UserHome" component={UserHomeScreen} />
         <Stack.Screen name="Request" component={RequestScreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="PlanRide" component={PlanRideScreen} />
         <Stack.Screen name="RideStatus" component={RideStatusScreen} />
       </Stack.Navigator>
