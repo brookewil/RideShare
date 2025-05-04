@@ -73,6 +73,8 @@ export default function UserHomeScreen({ navigation }) {
         createdAt: new Date(),
         isPlanned: isPlannedRide,
         rideTime: rideTime,
+        driverId: null, // ID of the driver assigned to the ride
+        driverName: null, // Name of the driver assigned to the ride
       };
 
       const docRef = await addDoc(collection(db, 'Rides'), ride);

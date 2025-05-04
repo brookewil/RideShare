@@ -8,6 +8,8 @@ class Ride {
     createdAt = new Date(),
     isPlanned = false,
     rideTime ,
+    driverId = null, // ID of the driver assigned to the ride
+    driverName = null, // Name of the driver assigned to the ride
   }) {
     this.riderId = riderId;
     this.riderName = riderName;
@@ -17,6 +19,8 @@ class Ride {
     this.createdAt = createdAt; // Date the ride was created
     this.isPlanned = isPlanned; // true or false
     this.rideTime = rideTime instanceof Date ? rideTime : null; // string or null (planned time input by user)
+    THIS.driverId = driverId; // ID of the driver assigned to the ride
+    this.driverName = driverName; // Name of the driver assigned to the ride
   }
 }
 
