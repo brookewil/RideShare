@@ -178,7 +178,15 @@ function MapRSInner({userType, inputDestination, onLocationChange}) {
         </MapView>
       </View>
     );
+  }catch (err) {
+    console.error('💥 Error rendering MapRSInner:', err.message);
+    return (
+      <View style={{ padding: 20 }}>
+        <Text style={{ color: 'red' }}>Something went wrong: {err.message}</Text>
+      </View>
+    );
   }
+} 
   
   
 
