@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
-import { getFirestore, collection, onSnapshot, getDocs } from 'firebase/firestore';
+import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { getFirestore, collection, onSnapshot, doc, getDocs, updateDoc } from 'firebase/firestore';
 import app from '../firebaseConfig';
 import { styles } from '../styles.js';
 import MapRS from '../Map';
@@ -17,8 +17,11 @@ function DriverHomeScreen() {
   const [destination, setDestination] = useState(null);
   const [pickupLocation, setPickupLocation] = useState(null);
   const [dropoffLocation, setDropoffLocation] = useState(null);
+  const [selectedRide, setSelectedRide] = useState(null);
+  
   const db = getFirestore(app);
 
+  // NOTE: This uses "Rides" with a capital R, there is also "rides" in FB DB
   useEffect(() => {
     const ridecollection = collection(db, "Rides");
     const unsubscribe = onSnapshot(ridecollection, (snapshot) => {
@@ -29,6 +32,7 @@ function DriverHomeScreen() {
     return () => unsubscribe();
   }, []);
 
+  // Loading text
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -44,12 +48,40 @@ function DriverHomeScreen() {
     //  </View>
 
      <View style={styles.mapContainer}>
-           <Text style={styles.headerTitle}>Welcome Back</Text>
+        <Text style={styles.headerTitle}>Welcome Back</Text>
      
-           <View style={styles.map}>
-             <MapRS userType={"driver"} destination = {destination}/>
-           </View>
+        <View style={styles.map}>
+          <MapRS
+          userType={"driver"}
+          destination = {selectedRide ? selectedRide.pickupLocation : destination}
+          onLocationChange={(location, destination) => {
+            if (!selectedRide) {
+              setDestination(destination);
+            }
+            // setPickupLocation(userLocation);
+          }}
+          />
+        </View>
 
+        {selectedRide ? (
+          <View style={styles.ridePreview}>
+            <Text style={styles.headerTitle}>Ride Preview</Text>
+            <Text>Pickup: {JSON.stringify(selectedRide.pickupLocation)}</Text>
+            <Text>Dropoff: {JSON.stringify(selectedRide.dropoffLocation)}</Text>
+            <Text>Rider: {selectedRide.displayName || "Unknown Rider"}</Text>
+            <View style={styles.buttonContainer}>
+              <Button
+                title="Accept"
+                onPress={() => handleAcceptRide(selectedRide)}
+              />
+              <Button
+                title="Deny"
+                onPress={() => setSelectedRide(null)} // Exit preview
+              />
+            </View>
+          </View>
+        ) : (
+          <View>
             <Text style={styles.headerTitle}>Available Rides</Text>
             <View style={styles.rideRequests}>
               {rides.length > 0 ? (
@@ -57,39 +89,52 @@ function DriverHomeScreen() {
                   data={rides}
                   keyExtractor={(item) => item.id}
                   renderItem={({ item }) => (
-                    <View style={styles.rideRequest}>
-                      <Text>Pickup: {item.pickupLocation ? JSON.stringify(item.pickupLocation) : "No Pickup Location"}</Text>
-                      <Text>Dropoff: {item.dropoffLocation ? JSON.stringify(item.dropoffLocation) : "No Drop Off Location"}</Text>
+                    <TouchableOpacity
+                      style={styles.rideRequest}
+                      onPress={() => setSelectedRide(item)} // Show preview on tap
+                    >
+                      <Text>
+                        Pickup:{" "}
+                        {item.pickupLocation
+                          ? `Lat: ${item.pickupLocation.latitude}, Lng: ${item.pickupLocation.longitude}`
+                          : "No Pickup Location"}
+                      </Text>
+                      <Text>
+                        Dropoff:{" "}
+                        {item.dropoffLocation
+                          ? `Lat: ${item.dropoffLocation.latitude}, Lng: ${item.dropoffLocation.longitude}`
+                          : "No Drop Off Location"}
+                      </Text>
                       <Text>Rider: {item.displayName || "Unknown Rider"}</Text>
-                      <View style={styles.buttonContainer}>
-                        <Button title="Accept" onPress={() => {
-                          handleAcceptRide(item);
-                          setRideAccepted(true);
-                          setDestination(item.pickupLocation);
-                        }} />
-                        <Button title="Deny" onPress={() => { 
-                          handleDenyRide(item);
-                          setRideDenied(true);
-                        }} />
-                      </View>
-                    </View>
+                    </TouchableOpacity>
                   )}
                 />
-              ) : (
+              ) : ( 
                 <Text>No rides available</Text>
               )}
             </View>
-
-            {rideAccepted && (
-              <Text style={styles.successMessage}>Ride Accepted!</Text>
-            )}
+          </View>
+        )}
+          {rideAccepted && (
+            <Text style={styles.successMessage}>Ride Accepted!</Text>
+          )}
 
       </View>
   );
 
   function handleAcceptRide(ride) {
     console.log("Ride Accepted: ", ride);
+    const rideRef = doc(db, "Rides", ride.id);
+    
+    updateDoc(rideRef, {
+      status: "accepted",
+      // driverID: user.uid,
+      // driverName: user.displayName || "Anonymous"
+    })
     // Add FB function to update ride status to accepted with driver info
+    // Show map, change destination to pickupLocation (user location)
+    setRideAccepted(true);
+    setDestination(ride.pickupLocation);
   }
 
   function handleDenyRide(ride) {

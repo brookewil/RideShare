@@ -117,6 +117,28 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
   },
 
+  ridePreview: {
+    padding: 20,
+    backgroundColor: '#f9f9f9',
+    borderRadius: 10,
+    margin: 10,
+  },
+  
+  rideRequest: {
+    padding: 15,
+    marginVertical: 10,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+
 }
 )
 
