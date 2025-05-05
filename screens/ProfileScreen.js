@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
   Alert,
   ScrollView,
  } from 'react-native';
- import { getAuth } from 'firebase/auth';
+ import { getAuth, updateEmail, updatePassword } from 'firebase/auth';
  import { db } from '../firebaseConfig';
  import { doc, getDoc, updateDoc } from 'firebase/firestore';
  import * as ImagePicker from 'expo-image-picker';
@@ -158,14 +158,36 @@ import React, { useState, useEffect } from 'react';
 
   const saveProfileChanges = async () => {
    const updatedData = {
-    username: username,
+    fullname: fullname,
     birthday: birthday,
     phoneNumber: phoneNumber,
-    fullname: fullname,
-    password: password,
+    password: password, // Still allow password changes
    };
+
+   // Update Firestore document (excluding username/email)
    await updateProfileData(updatedData);
+
+   // Only update password in Authentication if it has a value
+   if (password) {
+    try {
+     await updatePassword(user, password);
+     console.log('Authentication password updated!');
+     Alert.alert('Profile Updated', 'Your profile information has been updated.');
+    } catch (authError) {
+     console.error('Error updating Firebase Auth (password):', authError);
+     Alert.alert(
+      'Update Failed',
+      `Error updating password: ${authError.message}`
+     );
+     fetchUserProfile();
+     return;
+    }
+   } else {
+    Alert.alert('Profile Updated', 'Your profile information has been updated.');
+   }
+
    setEditing(false);
+   fetchUserProfile();
   };
 
   const saveCarChanges = async () => {
@@ -180,7 +202,6 @@ import React, { useState, useEffect } from 'react';
      color: carColor,
      plate: carPlate,
     });
-    // Re-fetch the profile data to update the state, which will also update the car
     fetchUserProfile();
     setEditingCar(false);
     Alert.alert('Car Updated', 'Your car information has been updated.');
@@ -237,11 +258,11 @@ import React, { useState, useEffect } from 'react';
         value={fullname}
         onChangeText={handleFullnameChange}
        />
-       <Text style={styles.label}>Email:</Text>
+       <Text style={styles.label}>Email (Not changeable):</Text>
        <TextInput
         style={styles.input}
         value={username}
-        onChangeText={handleUsernameChange}
+        editable={false} // Make the email input non-editable
        />
        <Text style={styles.label}>Password:</Text>
        <TextInput
@@ -280,25 +301,25 @@ import React, { useState, useEffect } from 'react';
       <>
        <View style={styles.infoRow}>
         <Text style={styles.label}>Name:</Text>
-        <Text style={styles.value}>{profile.fullname}</Text>
+        <Text style={styles.value}>{profile?.fullname}</Text>
        </View>
        <View style={styles.infoRow}>
         <Text style={styles.label}>Email:</Text>
-        <Text style={styles.value}>{profile.username}</Text>
+        <Text style={styles.value}>{profile?.username}</Text>
        </View>
        <View style={styles.infoRow}>
         <Text style={styles.label}>Password:</Text>
         <Text style={styles.value}>
-         {profile.password ? '*'.repeat(profile.password.length) : ''}
+         {profile?.password ? '*'.repeat(profile.password.length) : ''}
         </Text>
        </View>
        <View style={styles.infoRow}>
         <Text style={styles.label}>Birthday:</Text>
-        <Text style={styles.value}>{profile.birthday}</Text>
+        <Text style={styles.value}>{profile?.birthday}</Text>
        </View>
        <View style={styles.infoRow}>
         <Text style={styles.label}>Phone Number:</Text>
-        <Text style={styles.value}>{profile.phoneNumber}</Text>
+        <Text style={styles.value}>{profile?.phoneNumber}</Text>
        </View>
 
        <TouchableOpacity
@@ -395,11 +416,11 @@ import React, { useState, useEffect } from 'react';
       </View>
      )}
 
-     <View style={{ marginTop: 15 }} />{' '}
+     <View style={{ marginTop: 15 }} />
      {/* Add some vertical space here */}
      <View style={styles.infoRow}>
       <Text style={styles.label}>Rating:</Text>
-      <Text style={styles.value}>{profile.rating}</Text>
+      <Text style={styles.value}>{profile?.rating}</Text>
      </View>
     </View>
    </ScrollView>
@@ -478,6 +499,7 @@ import React, { useState, useEffect } from 'react';
    fontWeight: 'bold',
    textAlign: 'center',
   },
+  
   carInfoContainer: {
    marginTop: 30,
    paddingHorizontal: 10,
