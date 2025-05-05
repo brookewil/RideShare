@@ -96,7 +96,22 @@ export const styles = StyleSheet.create({
   radioText: {
     fontSize: 16,
   },
-
+  profileContainer: {
+    flex: 1,
+    alignItems: 'center',
+    paddingTop: 50,
+  },
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    marginBottom: 20,
+  },
+  profileText: {
+    fontSize: 18,
+    marginVertical: 5,
+  },
+  
   navigation: {
     display: 'none',
   },

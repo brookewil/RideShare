@@ -23,7 +23,7 @@ function AuthStack({ setIsLoggedIn }) {
       <Stack.Screen name="Login"> 
         {() => <LoginScreen setIsLoggedIn={setIsLoggedIn} />}
       </Stack.Screen>
-      <Stack.Screen name="Sign Up" component={SignUpScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
     </Stack.Navigator>
   );
 }
@@ -55,6 +55,7 @@ export function TabNavigator() {
             tabBarStyle: {
               backgroundColor: '#450000',
               paddingTop: 5,
+              paddingBottom: 20,
               height: 60,
             },}}>
 
