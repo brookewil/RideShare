@@ -79,7 +79,7 @@ export function TabNavigator() {
         }} />
 
 
-            <Tab.Screen name="Chat" component={ChatScreen} 
+            <Tab.Screen name="Chat" component={MessageStack} 
             options={{
             tabBarLabel: 'Chat',
             tabBarIcon: ({ color, size }) => (
