@@ -4,6 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+
+import {getFirestore, doc, getDoc} from 'firebase/firestore';
+import app from './firebaseConfig.js';
+
 import LoginScreen from './screens/LoginScreen';
 import UserHomeScreen from './screens/UserHomeScreen';
 import AdminHomeScreen from './screens/AdminHomeScreen';
@@ -46,6 +50,8 @@ const HomeStack = () => {
 const Tab = createBottomTabNavigator();
 
 export function TabNavigator() {
+  const [isDriver, setIsDriver] = React.useState(false);
+
   return (
         <Tab.Navigator initialRouteName='HomeTab'
         screenOptions={{ headerShown: false, 
@@ -81,6 +87,14 @@ export function TabNavigator() {
                 <Ionicons name="person" color={color} size={size} />
             ),
         }} />
+            <Tab.Screen name="DriverHome" component={DriverHomeScreen}
+              options={{
+                tabBarLabel: 'Driver Home',
+                tabBarIcon: ({ color, size }) => (
+                  <Ionicons name="car" color={color} size={size} />
+                ),
+              }}
+            />
         </Tab.Navigator>
    )
 }

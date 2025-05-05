@@ -89,7 +89,7 @@ export default function UserHomeScreen({ navigation }) {
       <Text style={styles.headerTitle}>Welcome Back</Text>
 
       <View style={styles.map}>
-        <MapRS />
+        <MapRS userType={"rider"}/>
       </View>
 
       <Text style={{ marginTop: 10, marginLeft: 10 }}>Planned Ride Date (YYYY-MM-DD):</Text>

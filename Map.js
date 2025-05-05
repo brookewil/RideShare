@@ -35,9 +35,9 @@ async function UserLocation() {
   }
 }
 
-function MapRS() {
+function MapRS({userType, destination}) {
   try {
-    return <MapRSInner />;
+    return <MapRSInner userType = {userType} destination = {destination}/>;
   } catch (err) {
     console.error('💥 Error rendering MapRS:', err.message);
     console.error(err.stack);
@@ -49,9 +49,9 @@ function MapRS() {
   }
 }
 
-function MapRSInner() {
+function MapRSInner({userType, inputDestination}) {
   const [location, setLocation] = useState(null);
-  const [destination, setDestination] = useState(null);
+  const [destination, setDestination] = useState(inputDestination);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [driverAssigned, setDriverAssigned] = useState(false);
@@ -70,7 +70,13 @@ function MapRSInner() {
       }
       setLoading(false);
     })();
-  }, []);
+  }, [userType]);
+
+  useEffect(() => {
+    if (inputDestination) {
+        setDestination(inputDestination);
+    }
+  }, [inputDestination]);
 
   if (loading) {
     return (
@@ -100,9 +106,9 @@ function MapRSInner() {
   try {
     return (
       <View style={styles.container}>
-        {location && (
-  <LocationSearch onSelect={setDestination} />
-)}
+        {location && userType === "rider" && (
+            <LocationSearch onSelect={setDestination} />
+        )}
 
         <MapView
           style={styles.map}

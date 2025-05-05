@@ -100,6 +100,23 @@ export const styles = StyleSheet.create({
   navigation: {
     display: 'none',
   },
+
+  rideRequests: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#f9f9f9',
+    borderRadius: 10,
+  },
+
+  rideRequest: {
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 5,
+  },
+
 }
 )
 
