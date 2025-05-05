@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { GOOGLE_API_KEY } from '@env';
 import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View, Text } from 'react-native';
-import * as Location from 'expo-location';
 //import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapViewDirections from 'react-native-maps-directions';
-import LocationSearch from './LocationSearch';
 
 
 const IC_COORDS = {
@@ -19,69 +17,45 @@ const ROUTE_COLOR = 'red';
 const ROUTE_WIDTH = 3;
 const MIN_WORD_SEARCH = 2;
 
-async function UserLocation() {
-  try {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      console.error('Location Permission was denied');
-      return null;
+
+function MapRS(props) {
+    try {
+      return <MapRSInner {...props} />;
+    } catch (err) {
+      console.error('💥 Error rendering MapRS:', err.message);
+      return (
+        <View style={{ padding: 20 }}>
+          <Text style={{ color: 'red' }}>Something went wrong: {err.message}</Text>
+        </View>
+      );
     }
-    const location = await Location.getCurrentPositionAsync({});
-    console.log('✅ User Location:', location.coords);
-    return location.coords;
-  } catch (error) {
-    console.error('❌ Could not retrieve user location:', error.message);
-    return null;
-  }
-}
-
-function MapRS() {
-  try {
-    return <MapRSInner />;
-  } catch (err) {
-    console.error('💥 Error rendering MapRS:', err.message);
-    console.error(err.stack);
-    return (
-      <View style={{ padding: 20 }}>
-        <Text style={{ color: 'red' }}>Something went wrong: {err.message}</Text>
-      </View>
-    );
-  }
-}
-
-function MapRSInner() {
-  const [location, setLocation] = useState(null);
-  const [destination, setDestination] = useState(null);
-  const [mapLoaded, setMapLoaded] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [driverAssigned, setDriverAssigned] = useState(false);
-
-  const GOOGLE_API = GOOGLE_API_KEY;
-
-  if (!GOOGLE_API) {
-    console.error('🚨 GOOGLE_API_KEY is undefined! Check your .env setup.');
   }
 
-  useEffect(() => {
-    (async () => {
-      const userLocation = await UserLocation();
-      if (userLocation) {
-        setLocation(userLocation);
+  function MapRSInner({ pickupLocation, dropoffLocation, setPickupLocation, setDropoffLocation }) {
+    const [tapCount, setTapCount] = useState(0);
+  
+    const handleMapPress = (e) => {
+      const { latitude, longitude } = e.nativeEvent.coordinate;
+      const coord = { latitude, longitude };
+      console.log(`🟢 Tap ${tapCount + 1}:`, coord);
+  
+      if (tapCount === 0) {
+        setPickupLocation(coord);
+        setTapCount(1);
+      } else if (tapCount === 1) {
+        setDropoffLocation(coord);
+        setTapCount(2);
+      } else {
+        console.log('🔁 Resetting tap flow...');
+        setPickupLocation(null);
+        setDropoffLocation(null);
+        setTapCount(0);
       }
-      setLoading(false);
-    })();
-  }, []);
-
-  if (loading) {
-    return (
-      <View style={styles.container}>
-        <Text>Loading map...</Text>
-      </View>
-    );
-  }
-
-  if (!location) {
-    console.warn('⚠️ No user location found. Falling back to IC coords.');
+    };
+  
+    const isValidCoord = (loc) =>
+      loc && typeof loc.latitude === 'number' && typeof loc.longitude === 'number';
+  
     return (
       <View style={styles.container}>
         <MapView
@@ -92,78 +66,35 @@ function MapRSInner() {
             latitudeDelta: DELTA_LAT,
             longitudeDelta: DELTA_LNG,
           }}
-        />
-      </View>
-    );
-  }
-
-  try {
-    return (
-      <View style={styles.container}>
-        {location && (
-  <LocationSearch onSelect={setDestination} />
-)}
-
-        <MapView
-          style={styles.map}
-          showsUserLocation={true}
-          initialRegion={{
-            latitude: location.latitude,
-            longitude: location.longitude,
-            latitudeDelta: DELTA_LAT,
-            longitudeDelta: DELTA_LNG,
-          }}
-          onMapReady={() => setMapLoaded(true)}
+          onPress={handleMapPress}
         >
-          {mapLoaded && (
-            <>
-              <Marker
-                coordinate={{
-                  latitude: location.latitude,
-                  longitude: location.longitude,
-                }}
-                title="Your Location"
-                description="Disclaimer: May not be exact"
-              />
-
-              {destination && (
-                <>
-                  <Marker
-                    coordinate={destination}
-                    title="Destination"
-                    description="User-selected destination"
-                  />
-                  <MapViewDirections
-                    origin={location}
-                    destination={destination}
-                    apikey={GOOGLE_API}
-                    strokeWidth={ROUTE_WIDTH}
-                    strokeColor={ROUTE_COLOR}
-                  />
-                </>
-              )}
-
-              {/* You can uncomment and complete driver logic when needed */}
-              {/* {driverAssigned && (
-                <Marker
-                  coordinate={{
-                    latitude: 0.0,
-                    longitude: 0.0,
-                  }}
-                  title="Driver Location"
-                  description="Driver Assigned"
-                />
-              )} */}
-            </>
+          {isValidCoord(pickupLocation) && (
+            <Marker coordinate={pickupLocation} title="Pickup" pinColor="green" />
           )}
+          {isValidCoord(dropoffLocation) && (
+            <Marker coordinate={dropoffLocation} title="Dropoff" pinColor="red" />
+          )}
+  
+          {/* ✅ Safely render route */}
+          {pickupLocation && dropoffLocation ? (
+  isValidCoord(pickupLocation) && isValidCoord(dropoffLocation) ? (
+    <MapViewDirections
+      key={`${pickupLocation.latitude},${pickupLocation.longitude}-${dropoffLocation.latitude},${dropoffLocation.longitude}`} // helps force re-render
+      origin={pickupLocation}
+      destination={dropoffLocation}
+      apikey={GOOGLE_API_KEY}
+      strokeWidth={ROUTE_WIDTH}
+      strokeColor={ROUTE_COLOR}
+      onError={(err) => console.error('❌ MapViewDirections error:', err)}
+    />
+  ) : null
+) : null}
         </MapView>
       </View>
     );
-  } catch (e) {
-    console.error('💥 Error inside JSX block of MapRSInner:', e.message);
-    return <Text>Error rendering map: {e.message}</Text>;
   }
-}
+  
+  
 
 const styles = StyleSheet.create({
   container: {

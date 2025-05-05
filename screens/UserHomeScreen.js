@@ -15,6 +15,8 @@ export default function UserHomeScreen({ navigation }) {
   const db = getFirestore(app);
   const [dateInput, setDateInput] = useState('');
   const [timeInput, setTimeInput] = useState('');
+  const [pickupLocation, setPickupLocation] = useState(null);
+  const [dropoffLocation, setDropoffLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   
 
@@ -67,8 +69,8 @@ export default function UserHomeScreen({ navigation }) {
       const ride = {
         riderId: user.uid,
         riderName: user.displayName || 'Anonymous',
-        pickupLocation: tempPickupCoords,
-        dropoffLocation: tempDropoffCoords,
+        pickupLocation,
+        dropoffLocation,
         status: 'requested',
         createdAt: new Date(),
         isPlanned: isPlannedRide,
@@ -89,7 +91,12 @@ export default function UserHomeScreen({ navigation }) {
       <Text style={styles.headerTitle}>Welcome Back</Text>
 
       <View style={styles.map}>
-        <MapRS />
+      <MapRS
+  pickupLocation={pickupLocation}
+  dropoffLocation={dropoffLocation}
+  setPickupLocation={setPickupLocation}
+  setDropoffLocation={setDropoffLocation}
+/>
       </View>
 
       <Text style={{ marginTop: 10, marginLeft: 10 }}>Planned Ride Date (YYYY-MM-DD):</Text>
