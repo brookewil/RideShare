@@ -60,8 +60,8 @@ export const styles = StyleSheet.create({
   mapContainer: {
     backgroundColor: '#fff',
     flex: 1,
-    padding: 10,
-    marginTop: 40,
+    padding: 20,
+    marginTop: 50,
   },
     
   radioGroup: {
