@@ -169,6 +169,13 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  PostTime: {
+    fontSize: 10,
+  },
+
+  MessageText: {
+    fontSize: 12,
+  },
 }
 )
 

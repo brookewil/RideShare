@@ -14,7 +14,9 @@ const Messages = [
     {
         id: '2',
         userName: 'Doug',
-        userImg: require('../assets/user2.jpg')
+        userImg: require('../assets/user2.jpg'),
+        messageTime: '1 hour ago',
+        messageTest: 'Hello',
     },
 
 ]
@@ -34,7 +36,9 @@ const MessageScreen = ({navigation}) => {
                             <View style = {styles.TextSection}>
                                 <View style={styles.UserInfoText}>
                                     <Text style={styles.UserName}>{item.userName}</Text>
+                                    <Text style={styles.PostTime}>{item.messageTime}</Text>
                                 </View>
+                                <Text style={styles.MessageText}>{item.messageText}</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
