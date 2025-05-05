@@ -56,9 +56,14 @@ function DriverHomeScreen() {
           <MapRS
           userType={"driver"}
           destination = {rideAccepted ? pickupLocation : selectedRide ? selectedRide.dropoffLocation : destination}
+          // location={pickupLocation}
           onLocationChange={(location, dest) => {
+            // if (selectedRide) {
+            //   setUserLocation(selectedRide.pickupLocation); // Update location to pickup location
+            // }
             setUserLocation(location); // Update driver location
             if (!selectedRide && !rideAccepted) {
+              
               setDestination(dest); // Update destination if accepted or none selected
             }
             // setPickupLocation(userLocation);
