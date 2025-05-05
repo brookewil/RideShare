@@ -4,6 +4,7 @@ import { getFirestore, collection, onSnapshot, doc, getDocs, updateDoc } from 'f
 import app from '../firebaseConfig';
 import { styles } from '../styles.js';
 import MapRS from '../Map';
+import { set } from 'lodash';
 
 // TODO: Add map for driver, when Rider request ride, show that ride on map with "Accept/Deny" buttons
 // When no rides, show text "No rides available"
@@ -17,6 +18,7 @@ function DriverHomeScreen() {
   const [destination, setDestination] = useState(null);
   const [pickupLocation, setPickupLocation] = useState(null);
   const [dropoffLocation, setDropoffLocation] = useState(null);
+  const [userLocation, setUserLocation] = useState(null);
   const [selectedRide, setSelectedRide] = useState(null);
   
   const db = getFirestore(app);
@@ -53,17 +55,34 @@ function DriverHomeScreen() {
         <View style={styles.map}>
           <MapRS
           userType={"driver"}
-          destination = {selectedRide ? selectedRide.pickupLocation : destination}
-          onLocationChange={(location, destination) => {
-            if (!selectedRide) {
-              setDestination(destination);
+          destination = {rideAccepted ? pickupLocation : selectedRide ? selectedRide.dropoffLocation : destination}
+          onLocationChange={(location, dest) => {
+            setUserLocation(location); // Update driver location
+            if (!selectedRide && !rideAccepted) {
+              setDestination(dest); // Update destination if accepted or none selected
             }
             // setPickupLocation(userLocation);
           }}
           />
         </View>
 
-        {selectedRide ? (
+        {rideAccepted ? (
+          <View>
+            <Text style={styles.successMessage}>Ride Accepted!</Text>
+            <Text>
+              Driver Location:{" "}
+              {userLocation
+                ? `Lat: ${userLocation.latitude}, Lng: ${userLocation.longitude}`
+                : "Fetching location..."}
+            </Text>
+            <Text>
+              Destination:{" "}
+              {pickupLocation
+                ? `Lat: ${pickupLocation.latitude}, Lng: ${pickupLocation.longitude}`
+                : "No Destination"}
+            </Text>
+          </View>
+        ) : selectedRide ? (
           <View style={styles.ridePreview}>
             <Text style={styles.headerTitle}>Ride Preview</Text>
             <Text>Pickup: {JSON.stringify(selectedRide.pickupLocation)}</Text>
@@ -91,7 +110,12 @@ function DriverHomeScreen() {
                   renderItem={({ item }) => (
                     <TouchableOpacity
                       style={styles.rideRequest}
-                      onPress={() => setSelectedRide(item)} // Show preview on tap
+                      onPress={() => {
+                        setSelectedRide(item)
+                        setPickupLocation(item.pickupLocation);
+                        setDropoffLocation(item.dropoffLocation);
+                        setDestination(item.dropoffLocation);
+                      }} // Show preview on tap
                     >
                       <Text>
                         Pickup:{" "}
@@ -115,10 +139,6 @@ function DriverHomeScreen() {
             </View>
           </View>
         )}
-          {rideAccepted && (
-            <Text style={styles.successMessage}>Ride Accepted!</Text>
-          )}
-
       </View>
   );
 
@@ -134,7 +154,10 @@ function DriverHomeScreen() {
     // Add FB function to update ride status to accepted with driver info
     // Show map, change destination to pickupLocation (user location)
     setRideAccepted(true);
-    setDestination(ride.pickupLocation);
+    setPickupLocation(ride.pickupLocation); // Set pickup location as destination
+    setDestination(ride.pickupLocation); // Update map destination to pickup location
+    setSelectedRide(null); // Clear selected ride
+    setRides(rides.filter((r) => r.id !== ride.id)); // Remove ride from list
   }
 
   function handleDenyRide(ride) {
