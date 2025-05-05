@@ -16,7 +16,8 @@ export default function UserHomeScreen({ navigation }) {
   const [dateInput, setDateInput] = useState('');
   const [timeInput, setTimeInput] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  
+  const [userLocation, setUserLocation] = useState(null);
+  const [destination, setDestination] = useState(null);
 
   const createRide = async () => {
     try {
@@ -67,8 +68,8 @@ export default function UserHomeScreen({ navigation }) {
       const ride = {
         riderId: user.uid,
         riderName: user.displayName || 'Anonymous',
-        pickupLocation: tempPickupCoords,
-        dropoffLocation: tempDropoffCoords,
+        pickupLocation: userLocation || tempPickupCoords,
+        dropoffLocation: destination || tempDropoffCoords,
         status: 'requested',
         createdAt: new Date(),
         isPlanned: isPlannedRide,
@@ -91,7 +92,13 @@ export default function UserHomeScreen({ navigation }) {
       <Text style={styles.headerTitle}>Welcome Back</Text>
 
       <View style={styles.map}>
-        <MapRS />
+        <MapRS 
+        userType={"rider"}
+        onLocationChange={(location, destination) => {
+          setUserLocation(location);
+          setDestination(destination);
+        }}
+        />
       </View>
 
       <Text style={{ marginTop: 10, marginLeft: 10 }}>Planned Ride Date (YYYY-MM-DD):</Text>

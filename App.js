@@ -1,21 +1,23 @@
 import 'react-native-get-random-values';
- import * as React from 'react';
- import { NavigationContainer } from '@react-navigation/native';
- import { createNativeStackNavigator } from '@react-navigation/native-stack';
- import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
- import { Ionicons } from '@expo/vector-icons';
- import LoginScreen from './screens/LoginScreen';
- import UserHomeScreen from './screens/UserHomeScreen';
- import AdminHomeScreen from './screens/AdminHomeScreen';
- import DriverHomeScreen from './screens/DriverHomeScreen';
- import RequestScreen from './screens/RequestScreen';
- import PlanRideScreen from './screens/PlanRideScreen';
- import RideStatusScreen from './screens/RideStatusScreen';
- import SignUpScreen from './SignUpScreen';
- import ChatScreen from './screens/ChatScreen';
- import ProfileScreen from './screens/ProfileScreen';
- import { getAuth, signOut } from 'firebase/auth';
- import { Alert } from 'react-native';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+
+import {getFirestore, doc, getDoc} from 'firebase/firestore';
+import app from './firebaseConfig.js';
+
+import LoginScreen from './screens/LoginScreen';
+import UserHomeScreen from './screens/UserHomeScreen';
+import AdminHomeScreen from './screens/AdminHomeScreen';
+import DriverHomeScreen from './screens/DriverHomeScreen';
+import RequestScreen from './screens/RequestScreen';
+import PlanRideScreen from './screens/PlanRideScreen';
+import RideStatusScreen from './screens/RideStatusScreen';
+import SignUpScreen from './SignUpScreen';
+import ChatScreen from './screens/ChatScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
  const Stack = createNativeStackNavigator();
 
@@ -44,9 +46,8 @@ const HomeStack = () => {
   );
 };
 
-const Tab = createBottomTabNavigator();
-
 export function TabNavigator({ setIsLoggedIn }) {
+  const [isDriver, setIsDriver] = React.useState(false);
   const handleLogout = async () => {
     const auth = getAuth();
     try {

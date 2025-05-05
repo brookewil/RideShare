@@ -35,9 +35,13 @@ async function UserLocation() {
   }
 }
 
-function MapRS() {
+function MapRS({userType, destination: inputDestination, onLocationChange}) {
   try {
-    return <MapRSInner />;
+    return <MapRSInner
+     userType = {userType}
+     inputDestination = {inputDestination}
+     onLocationChange = {onLocationChange}
+    />;
   } catch (err) {
     console.error('💥 Error rendering MapRS:', err.message);
     console.error(err.stack);
@@ -49,9 +53,9 @@ function MapRS() {
   }
 }
 
-function MapRSInner() {
+function MapRSInner({userType, inputDestination, onLocationChange}) {
   const [location, setLocation] = useState(null);
-  const [destination, setDestination] = useState(null);
+  const [destination, setDestination] = useState(inputDestination);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [driverAssigned, setDriverAssigned] = useState(false);
@@ -67,10 +71,27 @@ function MapRSInner() {
       const userLocation = await UserLocation();
       if (userLocation) {
         setLocation(userLocation);
+        if (onLocationChange) {
+            onLocationChange(userLocation, destination);
+        }
       }
       setLoading(false);
     })();
-  }, []);
+  }, [userType]);
+
+  // Update destination when it is inputted
+  useEffect(() => {
+    if (inputDestination) {
+        setDestination(inputDestination);
+    }
+  }, [inputDestination]);
+
+  // Update parent call when location/destination changes
+  useEffect(() => {
+    if (onLocationChange) {
+        onLocationChange(location, destination);
+    }
+  }, [location, destination]);
 
   if (loading) {
     return (
@@ -100,9 +121,9 @@ function MapRSInner() {
   try {
     return (
       <View style={styles.container}>
-        {location && (
-  <LocationSearch onSelect={setDestination} />
-)}
+        {location && userType === "rider" && (
+            <LocationSearch onSelect={setDestination} />
+        )}
 
         <MapView
           style={styles.map}
@@ -131,7 +152,7 @@ function MapRSInner() {
                   <Marker
                     coordinate={destination}
                     title="Destination"
-                    description="User-selected destination"
+                    description="Your intended destination"
                   />
                   <MapViewDirections
                     origin={location}
