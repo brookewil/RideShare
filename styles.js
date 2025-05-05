@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import styled from 'styled-components';
 
 export const styles = StyleSheet.create({
   loginContainer: {
@@ -115,6 +116,12 @@ export const styles = StyleSheet.create({
   navigation: {
     display: 'none',
   },
+
+  // Message Styling
+
+  Card: {
+    width: '100%',
+  }
 }
 )
 
