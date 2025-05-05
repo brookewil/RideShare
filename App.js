@@ -14,6 +14,7 @@ import RideStatusScreen from './screens/RideStatusScreen';
 import SignUpScreen from './SignUpScreen';
 import ChatScreen from './screens/ChatScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import MessageScreen from './screens/MessageScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,16 @@ const HomeStack = () => {
         <Stack.Screen name="RideStatus" component={RideStatusScreen} />
       </Stack.Navigator>
     )
+}
+
+const MessageStack = ({navigation}) => {
+  
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Messages" component={MessageScreen}/>
+      <Stack.Screen name="Chat" component={ChatScreen}/>
+    </Stack.Navigator>
+  )
 }
 
 const Tab = createBottomTabNavigator();
