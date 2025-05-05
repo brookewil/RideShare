@@ -47,6 +47,7 @@ const HomeStack = () => {
 };
 
 export function TabNavigator({ setIsLoggedIn }) {
+  const Tab = createBottomTabNavigator();
   const [isDriver, setIsDriver] = React.useState(false);
   const handleLogout = async () => {
     const auth = getAuth();
@@ -83,7 +84,14 @@ export function TabNavigator({ setIsLoggedIn }) {
           tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
         }}
       />
-
+      <Tab.Screen
+        name="DriverHome"
+        component={DriverHomeScreen}
+        options={{
+          tabBarLabel: 'Driver Home',
+          tabBarIcon: ({ color, size }) => <Ionicons name="car" color={color} size={size} />,
+        }}
+      />
       <Tab.Screen
         name="Chat"
         component={ChatScreen}
