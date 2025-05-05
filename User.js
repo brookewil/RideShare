@@ -1,6 +1,7 @@
 // User.js
 class User {
-    constructor(email, password, birthday, phoneNumber) {
+    constructor(fullname, email, password, birthday, phoneNumber, profileImage) {
+        this.fullname = fullname;
         this.username = email; // username and email are the same
         this.password = password;
         this.birthday = birthday;
@@ -10,6 +11,7 @@ class User {
         this.rating = -1;
         this.funds = 0;
         this.location = null;
+        this.profileImage = null; // Initialize profileImage to null
       }
 
     setActive(activeStatus) {

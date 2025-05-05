@@ -1,7 +1,7 @@
 import User from './User.js';
 class Rider extends User {
-    constructor(email, password, birthday, phoneNumber) {
-        super(email, password, birthday, phoneNumber);
+    constructor(fullname, email, password, birthday, phoneNumber, profileImage) {
+        super(fullname,email, password, birthday, phoneNumber, profileImage);
         this.type = 'rider';
       }
     }

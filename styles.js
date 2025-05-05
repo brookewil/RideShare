@@ -60,8 +60,8 @@ export const styles = StyleSheet.create({
   mapContainer: {
     backgroundColor: '#fff',
     flex: 1,
-    padding: 10,
-    marginTop: 40,
+    padding: 20,
+    marginTop: 50,
   },
     
   radioGroup: {
@@ -96,10 +96,64 @@ export const styles = StyleSheet.create({
   radioText: {
     fontSize: 16,
   },
-
+  profileContainer: {
+    flex: 1,
+    alignItems: 'center',
+    paddingTop: 50,
+  },
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    marginBottom: 20,
+  },
+  profileText: {
+    fontSize: 18,
+    marginVertical: 5,
+  },
+  
   navigation: {
     display: 'none',
   },
+
+  rideRequests: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#f9f9f9',
+    borderRadius: 10,
+  },
+
+  rideRequest: {
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 5,
+  },
+
+  ridePreview: {
+    padding: 20,
+    backgroundColor: '#f9f9f9',
+    borderRadius: 10,
+    margin: 10,
+  },
+  
+  rideRequest: {
+    padding: 15,
+    marginVertical: 10,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+
 }
 )
 

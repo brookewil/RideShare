@@ -15,6 +15,7 @@ import Car from './Car';
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
+  const [fullname, setFullname] = useState('');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,6 +24,10 @@ export default function SignUpScreen() {
   const [birthday, setBirthday] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [role, setRole] = useState('rider');  // Default role set to 'rider'
+
+  const cleanFullName = (name) => {
+    return name.trim().replace(/\s+/g, ' '); // Trim spaces and replace multiple spaces with a single one
+  };
 
   // Car fields
   const [carYear, setCarYear] = useState('');
@@ -39,6 +44,13 @@ export default function SignUpScreen() {
   const handleSignUp = async () => {
     if (!validateEmail(email)) {
       Alert.alert('Invalid Email Format');
+      return;
+    }
+
+    const name = cleanFullName(fullname);
+
+    if (!name.includes(" ")) {
+      Alert.alert("Please enter both first and last name.");
       return;
     }
     if (password !== confirmPassword) {
@@ -63,17 +75,17 @@ export default function SignUpScreen() {
   
       let userObject;
       if (role === 'rider') {
-        userObject = new Rider(email, password, birthday, phoneNumber);
+        userObject = new Rider(fullname, email, password, birthday, phoneNumber);
       } else if (role === 'driver') {
-        userObject = new Driver(email, password, birthday, phoneNumber, null); // we'll attach car separately
+        userObject = new Driver(fullname,email, password, birthday, phoneNumber, null); // Attach car later
       }
   
-      userObject.signup(); // optional logging
+      userObject.signup(); // Optional logging
   
       // Save user first without car
       await setDoc(doc(db, "Users", uid), {
         ...userObject,
-        cars: [], // init as empty list of car IDs
+        profileImage: 'https://www.w3schools.com/howto/img_avatar.png',
         createdAt: new Date().toISOString(),
       });
   
@@ -94,7 +106,7 @@ export default function SignUpScreen() {
   
         // Update user with reference to car
         await updateDoc(doc(db, "Users", uid), {
-          cars: arrayUnion(carDocRef.id),
+          car: carDocRef.id, // Store car ID in the 'car' field
         });
       }
   
@@ -105,14 +117,16 @@ export default function SignUpScreen() {
   };
   
   
+  
 
   
 
   return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView contentContainerStyle={styles.loginContainer}>
       <View style={{ height: 40 }} />
       <Text style={styles.title}>Sign Up</Text>
 
+      <TextInput style={styles.input} value={fullname} onChangeText={(text) => setFullname(text)} placeholder="Full Name" />
       <TextInput style={styles.input} value={email} onChangeText={(text) => setEmail(text.trim())} placeholder="Email" />
       <TextInput style={styles.input} value={password} onChangeText={(text) => setPassword(text.trim())} placeholder="Password" secureTextEntry />
       <TextInput style={styles.input} value={confirmPassword} onChangeText={(text) => setConfirmPassword(text.trim())} placeholder="Confirm Password" secureTextEntry />
@@ -168,3 +182,4 @@ export default function SignUpScreen() {
     </ScrollView>
   );
 }
+
