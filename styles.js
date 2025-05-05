@@ -117,11 +117,6 @@ export const styles = StyleSheet.create({
     display: 'none',
   },
 
-  // Message Styling
-
-  Card: {
-    width: '100%',
-  }
 }
 )
 
