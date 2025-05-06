@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, collection, addDoc, updateDoc, doc, uid } from 'firebase/firestore';
@@ -7,10 +5,11 @@ import app from '../firebaseConfig'; // adjust if needed
 import {styles} from '../styles.js';
 import { View, Text, TouchableOpacity,TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
+
 import MapRS from '../Map';
 import RideStatusScreen from './RideStatusScreen.js';
 import { useRoute } from '@react-navigation/native';
-
 
 
 export default function UserHomeScreen({ navigation }) {
@@ -18,9 +17,9 @@ export default function UserHomeScreen({ navigation }) {
   const db = getFirestore(app);
   const [dateInput, setDateInput] = useState('');
   const [timeInput, setTimeInput] = useState('');
+  const [pickupLocation, setPickupLocation] = useState(null);
+  const [dropoffLocation, setDropoffLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const [userLocation, setUserLocation] = useState(null);
-  const [destination, setDestination] = useState(null);
 
   const createRide = async () => {
     try {
@@ -29,56 +28,35 @@ export default function UserHomeScreen({ navigation }) {
         console.error('No user logged in');
         return;
       }
-      if (!dateInput && timeInput) {
-        setErrorMessage('Please enter a date for the planned ride');
-        return;
-      }else if (dateInput && !timeInput) {
-        setErrorMessage('Please enter a time for the planned ride');
+
+      if (!pickupLocation || !dropoffLocation) {
+        setErrorMessage('Select both pickup and dropoff locations.');
         return;
       }
 
-      // TEMPORARY TEST COORDINATES:
-      const tempPickupCoords = {
-        latitude: 42.422668,
-        longitude: -76.494209,
-      };
+      if (!dateInput || !timeInput) {
+        setErrorMessage('Please enter both a date and time.');
+        return;
+      }
 
-      const tempDropoffCoords = {
-        latitude: 42.4492,
-        longitude: -76.4844,
-      };
-
-      const isPlannedRide = dateInput !== '' && timeInput !== '';
-
-      let rideTime = null;
       const combinedDateTime = new Date(`${dateInput}T${timeInput}`);
-
-      if (isPlannedRide) {
-        if (isNaN(combinedDateTime.getTime())) {
-          setErrorMessage('Invalid date or time');
-          return;
-        }
-        rideTime = combinedDateTime;
-      }
-      const todaytime = new Date();
-      if (combinedDateTime < todaytime) {
-        setErrorMessage('Planned ride time must be in the future');
+      const now = new Date();
+      if (isNaN(combinedDateTime.getTime()) || combinedDateTime < now) {
+        setErrorMessage('Planned ride time must be in the future.');
         return;
       }
-      
-
 
       const ride = {
         riderId: user.uid,
         riderName: user.displayName || 'Anonymous',
-        pickupLocation: userLocation || tempPickupCoords,
-        dropoffLocation: destination || tempDropoffCoords,
+        pickupLocation: pickupLocation,
+        dropoffLocation: dropoffLocation,
         status: 'requested',
         createdAt: new Date(),
-        isPlanned: isPlannedRide,
-        rideTime: rideTime,
-        driverId: null, // ID of the driver assigned to the ride
-        driverName: null, // Name of the driver assigned to the ride
+        isPlanned: true,
+        rideTime: combinedDateTime,
+        driverId: null,
+        driverName: null,
       };
       const userId = user.uid;
 
@@ -108,12 +86,12 @@ export default function UserHomeScreen({ navigation }) {
       
   }
   catch (error) {
+
       console.error('Error creating ride:', error);
       Alert.alert('Error', 'Could not request ride. Please try again.');
     }
   };
 
- 
 
 
   return (
@@ -121,19 +99,19 @@ export default function UserHomeScreen({ navigation }) {
       <Text style={styles.headerTitle}>Welcome Back</Text>
 
       <View style={styles.map}>
-        <MapRS 
-        userType={"rider"}
-        onLocationChange={(location, destination) => {
-          setUserLocation(location);
-          setDestination(destination);
-        }}
+        <MapRS
+          userType="rider"
+          onLocationChange={(pickup, dropoff) => {
+            setPickupLocation(pickup);
+            setDropoffLocation(dropoff);
+          }}
         />
       </View>
 
       <Text style={{ marginTop: 10, marginLeft: 10 }}>Planned Ride Date (YYYY-MM-DD):</Text>
       <TextInput
         style={styles.input}
-        placeholder="2025-05-02"
+        placeholder="2025-05-06"
         value={dateInput}
         onChangeText={setDateInput}
       />
@@ -151,9 +129,6 @@ export default function UserHomeScreen({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={createRide}>
         <Text style={styles.buttonText}>Request/Plan a Ride</Text>
       </TouchableOpacity>
-
-  
     </View>
   );
 }
-

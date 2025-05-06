@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { GOOGLE_API_KEY } from '@env';
 import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View, Text } from 'react-native';
-import * as Location from 'expo-location';
 //import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapViewDirections from 'react-native-maps-directions';
-import LocationSearch from './LocationSearch';
+import * as Location from 'expo-location';
+import { TouchableOpacity } from 'react-native';
 
 
 const IC_COORDS = {
@@ -53,138 +53,177 @@ function MapRS({userType, destination: inputDestination, onLocationChange}) {
   }
 }
 
-function MapRSInner({userType, inputDestination, onLocationChange}) {
-  const [location, setLocation] = useState(null);
-  const [destination, setDestination] = useState(inputDestination);
-  const [mapLoaded, setMapLoaded] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [driverAssigned, setDriverAssigned] = useState(false);
-
-  const GOOGLE_API = GOOGLE_API_KEY;
-
-  if (!GOOGLE_API) {
-    console.error('🚨 GOOGLE_API_KEY is undefined! Check your .env setup.');
-  }
-
-  useEffect(() => {
-    (async () => {
-      const userLocation = await UserLocation();
-      if (userLocation) {
-        setLocation(userLocation);
-        if (onLocationChange) {
-            onLocationChange(userLocation, destination);
+function MapRSInner({ userType, inputDestination, onLocationChange }) {
+    const [location, setLocation] = useState(null);
+    const [pickup, setPickup] = useState(null);
+    const [destination, setDestination] = useState(null);
+    const [tempPickup, setTempPickup] = useState(null);
+    const [tempDestination, setTempDestination] = useState(null);
+    const [startConfirmed, setStartConfirmed] = useState(false);
+    const [confirmed, setConfirmed] = useState(false);
+    const [mapLoaded, setMapLoaded] = useState(false);
+    const [loading, setLoading] = useState(true);
+  
+    const GOOGLE_API = GOOGLE_API_KEY;
+  
+    useEffect(() => {
+      (async () => {
+        const userLocation = await UserLocation();
+        if (userLocation) {
+          setLocation(userLocation);
         }
+        setLoading(false);
+      })();
+    }, [userType]);
+  
+    const handleMapPress = (event) => {
+      if (confirmed) return;
+  
+      const coord = event.nativeEvent.coordinate;
+  
+      if (!startConfirmed) {
+        setTempPickup(coord);
+      } else if (!tempDestination) {
+        setTempDestination(coord);
+      } else {
+        setTempDestination(coord); // allow re-selecting destination before confirm
       }
-      setLoading(false);
-    })();
-  }, [userType]);
-
-  // Update destination when it is inputted
-  useEffect(() => {
-    if (inputDestination) {
-        setDestination(inputDestination);
+    };
+  
+    const confirmStart = () => {
+      setPickup(tempPickup);
+      setTempPickup(null);
+      setStartConfirmed(true);
+    };
+  
+    const confirmDestination = () => {
+      setDestination(tempDestination);
+      setTempDestination(null);
+      setConfirmed(true);
+      if (onLocationChange) {
+        onLocationChange(pickup, tempDestination);
+      }
+    };
+  
+    if (loading) {
+      return (
+        <View style={styles.container}>
+          <Text>Loading map...</Text>
+        </View>
+      );
     }
-  }, [inputDestination]);
-
-  // Update parent call when location/destination changes
-  useEffect(() => {
-    if (onLocationChange) {
-        onLocationChange(location, destination);
-    }
-  }, [location, destination]);
-
-  if (loading) {
+  
     return (
       <View style={styles.container}>
-        <Text>Loading map...</Text>
-      </View>
-    );
-  }
-
-  if (!location) {
-    console.warn('⚠️ No user location found. Falling back to IC coords.');
-    return (
-      <View style={styles.container}>
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: IC_COORDS.latitude,
-            longitude: IC_COORDS.longitude,
-            latitudeDelta: DELTA_LAT,
-            longitudeDelta: DELTA_LNG,
-          }}
-        />
-      </View>
-    );
-  }
-
-  try {
-    return (
-      <View style={styles.container}>
-        {location && userType === "rider" && (
-            <LocationSearch onSelect={setDestination} />
-        )}
-
         <MapView
           style={styles.map}
           showsUserLocation={true}
+          onMapReady={() => setMapLoaded(true)}
+          onPress={handleMapPress}
           initialRegion={{
-            latitude: location.latitude,
-            longitude: location.longitude,
+            latitude: location?.latitude || IC_COORDS.latitude,
+            longitude: location?.longitude || IC_COORDS.longitude,
             latitudeDelta: DELTA_LAT,
             longitudeDelta: DELTA_LNG,
           }}
-          onMapReady={() => setMapLoaded(true)}
         >
-          {mapLoaded && (
-            <>
-              <Marker
-                coordinate={{
-                  latitude: location.latitude,
-                  longitude: location.longitude,
-                }}
-                title="Your Location"
-                description="Disclaimer: May not be exact"
-              />
-
-              {destination && (
-                <>
-                  <Marker
-                    coordinate={destination}
-                    title="Destination"
-                    description="Your intended destination"
-                  />
-                  <MapViewDirections
-                    origin={location}
-                    destination={destination}
-                    apikey={GOOGLE_API}
-                    strokeWidth={ROUTE_WIDTH}
-                    strokeColor={ROUTE_COLOR}
-                  />
-                </>
-              )}
-
-              {/* You can uncomment and complete driver logic when needed */}
-              {/* {driverAssigned && (
-                <Marker
-                  coordinate={{
-                    latitude: 0.0,
-                    longitude: 0.0,
-                  }}
-                  title="Driver Location"
-                  description="Driver Assigned"
-                />
-              )} */}
-            </>
+          {/* Confirmed Pickup and Dropoff */}
+          {pickup && (
+            <Marker
+              coordinate={pickup}
+              title="Pickup Location"
+              pinColor="green"
+            />
+          )}
+          {destination && (
+            <Marker
+              coordinate={destination}
+              title="Dropoff Location"
+              pinColor="red"
+            />
+          )}
+  
+          {/* Temporary Markers */}
+          {tempPickup && !startConfirmed && (
+            <Marker
+              coordinate={tempPickup}
+              title="Temp Pickup"
+              pinColor="blue"
+            />
+          )}
+          {tempDestination && startConfirmed && !confirmed && (
+            <Marker
+              coordinate={tempDestination}
+              title="Temp Dropoff"
+              pinColor="orange"
+            />
+          )}
+  
+          {/* Confirmed Route */}
+          {pickup && destination && confirmed && (
+            <MapViewDirections
+              origin={pickup}
+              destination={destination}
+              apikey={GOOGLE_API}
+              strokeWidth={ROUTE_WIDTH}
+              strokeColor={ROUTE_COLOR}
+            />
           )}
         </MapView>
+  
+        {/* Top-Left Instructions */}
+        <View style={{ position: 'absolute', top: 10, left: 10 }}>
+          <Text style={{ fontWeight: 'bold', marginBottom: 8 }}>
+            {confirmed
+              ? "✅ Locations chosen"
+              : startConfirmed
+              ? "📍 Choose destination"
+              : "📍 Choose starting location"}
+          </Text>
+        </View>
+  
+        {/* Confirm Start Button */}
+        {tempPickup && !startConfirmed && (
+          <View style={{ position: 'absolute', bottom: 20, right: 20 }}>
+            <TouchableOpacity
+              onPress={confirmStart}
+              style={{
+                backgroundColor: 'blue',
+                padding: 10,
+                borderRadius: 8,
+                borderColor: '#ccc',
+                borderWidth: 1,
+              }}
+            >
+              <Text style={{ color: 'white' }}>Confirm Start</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+  
+        {/* Confirm Destination Button */}
+        {startConfirmed && tempDestination && !confirmed && (
+          <View style={{ position: 'absolute', bottom: 20, right: 20 }}>
+            <TouchableOpacity
+              onPress={confirmDestination}
+              style={{
+                backgroundColor: 'green',
+                padding: 10,
+                borderRadius: 8,
+                borderColor: '#ccc',
+                borderWidth: 1,
+              }}
+            >
+              <Text style={{ color: 'white' }}>Confirm Destination</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     );
-  } catch (e) {
-    console.error('💥 Error inside JSX block of MapRSInner:', e.message);
-    return <Text>Error rendering map: {e.message}</Text>;
   }
-}
+  
+  
+  
+  
 
 const styles = StyleSheet.create({
   container: {
