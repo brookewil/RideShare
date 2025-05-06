@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import { getAuth, signOut } from 'firebase/auth';
+import { Alert } from 'react-native';
 
 import {getFirestore, doc, getDoc} from 'firebase/firestore';
 import app from './firebaseConfig.js';
