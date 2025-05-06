@@ -552,7 +552,7 @@
     "react-native-dotenv": "^3.4.11",
     "react-native-edge-to-edge": "^1.6.0",
     "react-native-get-random-values": "^1.11.0",
-    "react-native-gifted-chat": "^2.8.1",
+    "react-native-gifted-chat": "2.6.3",
     "react-native-google-places-autocomplete": "^2.5.7",
     "react-native-is-edge-to-edge": "^1.1.7",
     "react-native-keyboard-controller": "^1.17.1",
@@ -560,6 +560,7 @@
     "react-native-maps-directions": "^1.9.0",
     "react-native-modal-datetime-picker": "^17.0.0",
     "react-native-paper": "^5.14.0",
+    "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "^5.4.0",
     "react-native-screens": "^4.10.0",
     "react-native-vector-icons": "^10.2.0",
@@ -758,8 +759,7 @@
     "yargs-parser": "^21.1.1",
     "yocto-queue": "^0.1.0",
     "zod": "^3.24.3",
-    "zod-to-json-schema": "^3.24.5",
-    "react-native-reanimated": "~3.17.4"
+    "zod-to-json-schema": "^3.24.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
