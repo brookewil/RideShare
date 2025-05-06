@@ -128,7 +128,7 @@ export function TabNavigator({ setIsLoggedIn }) {
       />
       <Tab.Screen
         name="Chat"
-        component={ChatScreen}
+        component={MessageStack}
         options={{
           tabBarLabel: 'Chat',
           tabBarIcon: ({ color, size }) => <Ionicons name="chatbox" color={color} size={size} />,
