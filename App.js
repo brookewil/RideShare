@@ -16,8 +16,10 @@ import RequestScreen from './screens/RequestScreen';
 import PlanRideScreen from './screens/PlanRideScreen';
 import RideStatusScreen from './screens/RideStatusScreen';
 import SignUpScreen from './SignUpScreen';
-import ChatScreen from './screens/ChatScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import MessageScreen from './screens/MessageScreen';
+import { ChatScreen } from './screens/ChatScreen';
+
 
  const Stack = createNativeStackNavigator();
 
@@ -33,6 +35,38 @@ import ProfileScreen from './screens/ProfileScreen';
 }
 
 const HomeStack = () => {
+   
+    return (
+      <Stack.Navigator initialRouteName="UserHome" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
+        <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
+        <Stack.Screen name="UserHome" component={UserHomeScreen} />
+        <Stack.Screen name="Request" component={RequestScreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="PlanRide" component={PlanRideScreen} />
+        <Stack.Screen name="RideStatus" component={RideStatusScreen} />
+      </Stack.Navigator>
+    )
+}
+
+const MessageStack = ({navigation}) => {
+  
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Messages" component={MessageScreen}/>
+      <Stack.Screen 
+      name="Chat" 
+      component={ChatScreen}
+      options={({route}) => ({
+        title: route.params.userName
+      })}/>
+    </Stack.Navigator>
+  )
+}
+
+const Tab = createBottomTabNavigator();
+
+export function TabNavigator() {
   return (
     <Stack.Navigator initialRouteName="UserHome" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
