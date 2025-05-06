@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text } from 'react-native';
 import {styles} from '../styles.js';
 import {GiftedChat} from 'react-native-gifted-chat'
-
+import {Date} from 'react-native-keyboard-controller'
 
 export function ChatScreen() {
   const [messages, setMessages] = useState([])
