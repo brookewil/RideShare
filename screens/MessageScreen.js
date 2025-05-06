@@ -28,7 +28,7 @@ const MessageScreen = ({navigation}) => {
                 data={Messages}
                 keyExtractor={item=>item.id}
                 renderItem={({item}) => (
-                    <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate('Chat')}>
+                    <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate('Chat', {userName: item.userName})}>
                         <View style={styles.UserInfo}>
                             <View style={styles.UserImgWrapper}>
                                 <Image style={styles.UserImg} source={item.userImg}/>
