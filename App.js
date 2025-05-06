@@ -28,6 +28,7 @@ import ProfileScreen from './screens/ProfileScreen';
         {() => <LoginScreen setIsLoggedIn={setIsLoggedIn} />}
       </Stack.Screen>
       <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="RideStatus" component={RideStatusScreen} />
     </Stack.Navigator>
   );
 }

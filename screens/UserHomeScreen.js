@@ -2,12 +2,15 @@
 
 import React, { useState } from 'react';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, updateDoc, doc, uid } from 'firebase/firestore';
 import app from '../firebaseConfig'; // adjust if needed
 import {styles} from '../styles.js';
 import { View, Text, TouchableOpacity,TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MapRS from '../Map';
+import RideStatusScreen from './RideStatusScreen.js';
+import { useRoute } from '@react-navigation/native';
+
 
 
 export default function UserHomeScreen({ navigation }) {
@@ -77,14 +80,40 @@ export default function UserHomeScreen({ navigation }) {
         driverId: null, // ID of the driver assigned to the ride
         driverName: null, // Name of the driver assigned to the ride
       };
+      const userId = user.uid;
 
-      const docRef = await addDoc(collection(db, 'Rides'), ride);
-      console.log('Ride created with ID: ', docRef.id);
-      setErrorMessage('');
-    } catch (error) {
+      try {
+      
+        // Step 1: Create the ride
+        const rideDocRef = await addDoc(collection(db, "Rides"), ride);
+      
+        try {
+          // Step 2: Attempt to update user document
+          await updateDoc(doc(db, "Users", userId), {
+            ride: rideDocRef.id,
+          });
+        } catch (userUpdateError) {
+          console.warn('Ride created but failed to update user:', userUpdateError);
+        }
+      
+        // Step 3: Proceed regardless
+        setErrorMessage('');
+        Alert.alert('Ride Requested', 'Your ride has been requested.');
+        navigation.navigate('RideStatus');
+      
+      } catch (error) {
+        console.error('Error creating ride:', error);
+        Alert.alert('Error', 'Could not request ride. Please try again.');
+      }
+      
+  }
+  catch (error) {
       console.error('Error creating ride:', error);
+      Alert.alert('Error', 'Could not request ride. Please try again.');
     }
   };
+
+ 
 
 
   return (

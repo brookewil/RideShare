@@ -7,7 +7,7 @@ class User {
         this.birthday = birthday;
         this.phoneNumber = phoneNumber;
         this.active = false;
-        this.rides = 0;
+        this.rides = null;
         this.rating = -1;
         this.funds = 0;
         this.location = null;
