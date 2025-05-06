@@ -15,7 +15,7 @@ export function ChatScreen() {
         user: {
           _id: 2,
           name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any,'
+          avatar: require('../assets/user1.jpg')
         },
       },
     ])

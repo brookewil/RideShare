@@ -8,7 +8,7 @@ const Messages = [
         userName: 'John',
         userImg: require('../assets/user1.jpg'),
         messageTime: '4 mins ago',
-        messageTest: 'Hello',
+        messageText: 'Hello',
     },
 
     {
@@ -16,7 +16,7 @@ const Messages = [
         userName: 'Doug',
         userImg: require('../assets/user2.jpg'),
         messageTime: '1 hour ago',
-        messageTest: 'Hello',
+        messageText: 'Hi!',
     },
 
 ]
