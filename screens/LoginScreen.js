@@ -51,46 +51,38 @@ export default function LoginScreen({setIsLoggedIn}) {
       Alert.alert('Invalid Email Format');
       return;
     }
-    
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    const uid = user.uid;
-
-    // First check Admins collection
-    const adminRef = doc(db, 'Admins', uid);
-    const adminSnap = await getDoc(adminRef);
-
-    if (adminSnap.exists()) {
-      Alert.alert('Welcome Admin!');
-      setIsLoggedIn(true);              // allow navbar to appear
-      navigation.navigate('HomeTab', { screen: 'AdminHome' });
-      return;
-    }
-
-    // Then check users collection
-    const userRef = doc(db, 'Users', uid);
-    const userSnap = await getDoc(userRef);
-
-    if (userSnap.exists()) {
-      const userData = userSnap.data();
-      setIsLoggedIn(true);              // navbar appear
-
-      if (userData.type === 'driver') {
-        Alert.alert('Welcome Driver!');
-        navigation.navigate('HomeTab', { screen: 'DriverHome' });
-      } else {
-        Alert.alert('Welcome User!');
-        navigation.navigate('HomeTab', { screen: 'UserHome' });
+  
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const uid = user.uid;
+  
+      const adminRef = doc(db, 'Admins', uid);
+      const adminSnap = await getDoc(adminRef);
+  
+      if (adminSnap.exists()) {
+        Alert.alert('Welcome Admin!');
+        setIsLoggedIn({ status: true, role: 'admin' }); // 👈 update
+        navigation.navigate('AdminHome');
+        return;
       }
-    } else {
+  
+      const userRef = doc(db, 'Users', uid);
+      const userSnap = await getDoc(userRef);
+  
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        const role = userData.type === 'driver' ? 'driver' : 'user';
+        Alert.alert(`Welcome ${role === 'driver' ? 'Driver' : 'User'}!`);
+        setIsLoggedIn({ status: true, role }); // 👈 set type for navbar logic
+      } else {
+        Alert.alert('Login Failed', 'User not found');
+      }
+    } catch (error) {
       Alert.alert('Login Failed', error.message);
     }
-
-  } catch (error) {
-    Alert.alert('Login Failed', error.message);
-  }
-};
+  };
+  
  
 useEffect(() => {
   if (showSignup) {

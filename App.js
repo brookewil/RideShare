@@ -46,7 +46,7 @@ const HomeStack = () => {
   );
 };
 
-export function TabNavigator({ setIsLoggedIn }) {
+export function TabNavigator({ role, setIsLoggedIn }) {
   const Tab = createBottomTabNavigator();
   const [isDriver, setIsDriver] = React.useState(false);
   const handleLogout = async () => {
@@ -62,12 +62,12 @@ export function TabNavigator({ setIsLoggedIn }) {
 
   return (
     <Tab.Navigator
-      initialRouteName="HomeTab"
+      initialRouteName={role === 'driver' ? 'DriverHome' : 'HomeTab'}
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: '#fff',
         tabBarInactiveTintColor: '#ccc',
-        tabBarHideOnKeyboard: 'true',
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           backgroundColor: '#450000',
           paddingTop: 5,
@@ -76,22 +76,28 @@ export function TabNavigator({ setIsLoggedIn }) {
         },
       }}
     >
-      <Tab.Screen
-        name="HomeTab"
-        component={HomeStack}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
-        }}
-      />
-      <Tab.Screen
-        name="DriverHome"
-        component={DriverHomeScreen}
-        options={{
-          tabBarLabel: 'Driver Home',
-          tabBarIcon: ({ color, size }) => <Ionicons name="car" color={color} size={size} />,
-        }}
-      />
+      {role === 'user' && (
+        <Tab.Screen
+          name="HomeTab"
+          component={HomeStack}
+          options={{
+            tabBarLabel: 'Home',
+            tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
+          }}
+        />
+      )}
+  
+      {role === 'driver' && (
+        <Tab.Screen
+          name="DriverHome"
+          component={DriverHomeScreen}
+          options={{
+            tabBarLabel: 'Driver Home',
+            tabBarIcon: ({ color, size }) => <Ionicons name="car" color={color} size={size} />,
+          }}
+        />
+      )}
+  
       <Tab.Screen
         name="Chat"
         component={ChatScreen}
@@ -100,6 +106,7 @@ export function TabNavigator({ setIsLoggedIn }) {
           tabBarIcon: ({ color, size }) => <Ionicons name="chatbox" color={color} size={size} />,
         }}
       />
+  
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
@@ -108,6 +115,7 @@ export function TabNavigator({ setIsLoggedIn }) {
           tabBarIcon: ({ color, size }) => <Ionicons name="person" color={color} size={size} />,
         }}
       />
+  
       <Tab.Screen
         name="Logout"
         listeners={{
@@ -125,14 +133,17 @@ export function TabNavigator({ setIsLoggedIn }) {
       </Tab.Screen>
     </Tab.Navigator>
   );
+  
 }
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [authStatus, setAuthStatus] = React.useState({ status: false, role: null });
 
   return (
     <NavigationContainer>
-      {isLoggedIn ? <TabNavigator setIsLoggedIn={setIsLoggedIn} /> : <AuthStack setIsLoggedIn={setIsLoggedIn} />}
+      {authStatus.status
+        ? <TabNavigator role={authStatus.role} setIsLoggedIn={setAuthStatus} />
+        : <AuthStack setIsLoggedIn={setAuthStatus} />}
     </NavigationContainer>
   );
 }
