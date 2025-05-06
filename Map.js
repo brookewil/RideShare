@@ -27,10 +27,10 @@ async function UserLocation() {
       return null;
     }
     const location = await Location.getCurrentPositionAsync({});
-    console.log('✅ User Location:', location.coords);
+    console.log('User Location:', location.coords);
     return location.coords;
   } catch (error) {
-    console.error('❌ Could not retrieve user location:', error.message);
+    console.error('Could not retrieve user location:', error.message);
     return null;
   }
 }
@@ -43,7 +43,7 @@ function MapRS({userType, destination: inputDestination, onLocationChange}) {
      onLocationChange = {onLocationChange}
     />;
   } catch (err) {
-    console.error('💥 Error rendering MapRS:', err.message);
+    console.error('Error rendering MapRS:', err.message);
     console.error(err.stack);
     return (
       <View style={{ padding: 20 }}>
@@ -63,7 +63,7 @@ function MapRSInner({userType, inputDestination, onLocationChange}) {
   const GOOGLE_API = GOOGLE_API_KEY;
 
   if (!GOOGLE_API) {
-    console.error('🚨 GOOGLE_API_KEY is undefined! Check your .env setup.');
+    console.error('GOOGLE_API_KEY is undefined! Check your .env setup.');
   }
 
   useEffect(() => {
@@ -102,7 +102,7 @@ function MapRSInner({userType, inputDestination, onLocationChange}) {
   }
 
   if (!location) {
-    console.warn('⚠️ No user location found. Falling back to IC coords.');
+    console.warn('No user location found. Falling back to IC coords.');
     return (
       <View style={styles.container}>
         <MapView
@@ -181,7 +181,7 @@ function MapRSInner({userType, inputDestination, onLocationChange}) {
       </View>
     );
   } catch (e) {
-    console.error('💥 Error inside JSX block of MapRSInner:', e.message);
+    console.error('Error inside JSX block of MapRSInner:', e.message);
     return <Text>Error rendering map: {e.message}</Text>;
   }
 }
