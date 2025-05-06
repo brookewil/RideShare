@@ -90,9 +90,9 @@ export function TabNavigator({ role, setIsLoggedIn }) {
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
           backgroundColor: '#450000',
-          paddingTop: 5,
-          paddingBottom: 20,
-          height: 75,
+          paddingTop: 7,
+          paddingBottom: 15,
+          height: 65,
         },
       }}
     >
