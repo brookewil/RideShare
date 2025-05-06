@@ -66,20 +66,6 @@ const MessageStack = ({navigation}) => {
 
 const Tab = createBottomTabNavigator();
 
-export function TabNavigator() {
-  return (
-    <Stack.Navigator initialRouteName="UserHome" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
-      <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
-      <Stack.Screen name="UserHome" component={UserHomeScreen} />
-      <Stack.Screen name="Request" component={RequestScreen} />
-      <Stack.Screen name="SignUp" component={SignUpScreen} />
-      <Stack.Screen name="PlanRide" component={PlanRideScreen} />
-      <Stack.Screen name="RideStatus" component={RideStatusScreen} />
-    </Stack.Navigator>
-  );
-};
-
 export function TabNavigator({ setIsLoggedIn }) {
   const Tab = createBottomTabNavigator();
   const [isDriver, setIsDriver] = React.useState(false);
