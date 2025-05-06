@@ -555,6 +555,7 @@
     "react-native-gifted-chat": "^2.8.1",
     "react-native-google-places-autocomplete": "^2.5.7",
     "react-native-is-edge-to-edge": "^1.1.7",
+    "react-native-keyboard-controller": "^1.17.1",
     "react-native-maps": "^1.20.1",
     "react-native-maps-directions": "^1.9.0",
     "react-native-modal-datetime-picker": "^17.0.0",
@@ -757,7 +758,8 @@
     "yargs-parser": "^21.1.1",
     "yocto-queue": "^0.1.0",
     "zod": "^3.24.3",
-    "zod-to-json-schema": "^3.24.5"
+    "zod-to-json-schema": "^3.24.5",
+    "react-native-reanimated": "~3.17.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
