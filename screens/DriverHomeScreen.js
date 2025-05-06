@@ -4,6 +4,7 @@ import { getFirestore, collection, onSnapshot, doc, getDocs, updateDoc } from 'f
 import app from '../firebaseConfig';
 import { styles } from '../styles.js';
 import MapRS from '../Map';
+import MapRSDriverPreview from './MapRSDriverPreview'; // Adjust path if needed
 import { set } from 'lodash';
 
 // TODO: Add map for driver, when Rider request ride, show that ride on map with "Accept/Deny" buttons
@@ -53,18 +54,24 @@ function DriverHomeScreen() {
         <Text style={styles.headerTitle}>Welcome Back</Text>
      
         <View style={styles.map}>
-          <MapRS
-          userType={"driver"}
-          destination = {rideAccepted ? pickupLocation : selectedRide ? selectedRide.dropoffLocation : destination}
-          onLocationChange={(location, dest) => {
-            setUserLocation(location); // Update driver location
-            if (!selectedRide && !rideAccepted) {
-              setDestination(dest); // Update destination if accepted or none selected
-            }
-            // setPickupLocation(userLocation);
-          }}
-          />
-        </View>
+  {(rideAccepted || selectedRide) ? (
+    <MapRSDriverPreview
+      pickup={rideAccepted ? pickupLocation : selectedRide.pickupLocation}
+      dropoff={rideAccepted ? dropoffLocation : selectedRide.dropoffLocation}
+    />
+  ) : (
+    <MapRS
+      userType={"driver"}
+      destination={destination}
+      onLocationChange={(location, dest) => {
+        setUserLocation(location); // Update driver location
+        if (!selectedRide && !rideAccepted) {
+          setDestination(dest); // Update destination if accepted or none selected
+        }
+      }}
+    />
+  )}
+</View>
 
         {rideAccepted ? (
           <View>
