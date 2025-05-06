@@ -12,9 +12,10 @@ import RequestScreen from './screens/RequestScreen';
 import PlanRideScreen from './screens/PlanRideScreen';
 import RideStatusScreen from './screens/RideStatusScreen';
 import SignUpScreen from './SignUpScreen';
-import ChatScreen from './screens/ChatScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import MessageScreen from './screens/MessageScreen';
+import { ChatScreen } from './screens/ChatScreen';
+
 
 const Stack = createNativeStackNavigator();
 
