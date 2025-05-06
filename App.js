@@ -16,8 +16,10 @@ import RequestScreen from './screens/RequestScreen';
 import PlanRideScreen from './screens/PlanRideScreen';
 import RideStatusScreen from './screens/RideStatusScreen';
 import SignUpScreen from './SignUpScreen';
-import ChatScreen from './screens/ChatScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import MessageScreen from './screens/MessageScreen';
+import { ChatScreen } from './screens/ChatScreen';
+
 
  const Stack = createNativeStackNavigator();
 
@@ -33,18 +35,36 @@ import ProfileScreen from './screens/ProfileScreen';
 }
 
 const HomeStack = () => {
+   
+    return (
+      <Stack.Navigator initialRouteName="UserHome" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
+        <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
+        <Stack.Screen name="UserHome" component={UserHomeScreen} />
+        <Stack.Screen name="Request" component={RequestScreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="PlanRide" component={PlanRideScreen} />
+        <Stack.Screen name="RideStatus" component={RideStatusScreen} />
+      </Stack.Navigator>
+    )
+}
+
+const MessageStack = ({navigation}) => {
+  
   return (
-    <Stack.Navigator initialRouteName="UserHome" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
-      <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
-      <Stack.Screen name="UserHome" component={UserHomeScreen} />
-      <Stack.Screen name="Request" component={RequestScreen} />
-      <Stack.Screen name="SignUp" component={SignUpScreen} />
-      <Stack.Screen name="PlanRide" component={PlanRideScreen} />
-      <Stack.Screen name="RideStatus" component={RideStatusScreen} />
+    <Stack.Navigator>
+      <Stack.Screen name="Messages" component={MessageScreen}/>
+      <Stack.Screen 
+      name="Chat" 
+      component={ChatScreen}
+      options={({route}) => ({
+        title: route.params.userName
+      })}/>
     </Stack.Navigator>
-  );
-};
+  )
+}
+
+const Tab = createBottomTabNavigator();
 
 function DummyScreen() {
   return null; // renders nothing, just a placeholder to enable Logout tab
@@ -74,9 +94,9 @@ export function TabNavigator({ role, setIsLoggedIn }) {
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
           backgroundColor: '#450000',
-          paddingTop: 5,
-          paddingBottom: 20,
-          height: 75,
+          paddingTop: 7,
+          paddingBottom: 15,
+          height: 65,
         },
       }}
     >
@@ -104,7 +124,7 @@ export function TabNavigator({ role, setIsLoggedIn }) {
   
       <Tab.Screen
         name="Chat"
-        component={ChatScreen}
+        component={MessageStack}
         options={{
           tabBarLabel: 'Chat',
           tabBarIcon: ({ color, size }) => <Ionicons name="chatbox" color={color} size={size} />,
