@@ -46,6 +46,10 @@ const HomeStack = () => {
   );
 };
 
+function DummyScreen() {
+  return null; // renders nothing, just a placeholder to enable Logout tab
+}
+
 export function TabNavigator({ role, setIsLoggedIn }) {
   const Tab = createBottomTabNavigator();
   const [isDriver, setIsDriver] = React.useState(false);
@@ -53,7 +57,7 @@ export function TabNavigator({ role, setIsLoggedIn }) {
     const auth = getAuth();
     try {
       await signOut(auth);
-      setIsLoggedIn(false); // Update the state to trigger navigation to AuthStack
+      setIsLoggedIn({ status: false, role: null }); // 👈 triggers LoginScreen
     } catch (error) {
       console.error('Logout error:', error);
       Alert.alert('Logout Failed', 'There was an error logging out.');
@@ -116,21 +120,21 @@ export function TabNavigator({ role, setIsLoggedIn }) {
         }}
       />
   
-      <Tab.Screen
-        name="Logout"
-        listeners={{
-          tabPress: (e) => {
-            e.preventDefault();
-            handleLogout();
-          },
-        }}
-        options={{
-          tabBarLabel: 'Logout',
-          tabBarIcon: ({ color, size }) => <Ionicons name="exit-outline" color={color} size={size} />,
-        }}
-      >
-        {() => null}
-      </Tab.Screen>
+  <Tab.Screen
+  name="Logout"
+  component={DummyScreen} // placeholder
+  listeners={{
+    tabPress: (e) => {
+      e.preventDefault();  // prevent tab navigation
+      handleLogout();      // perform logout
+    },
+  }}
+  options={{
+    tabBarLabel: 'Logout',
+    tabBarIcon: ({ color, size }) => <Ionicons name="exit-outline" color={color} size={size} />,
+  }}
+/>
+
     </Tab.Navigator>
   );
   
